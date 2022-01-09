@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         _playerData.Add(p, new GameData[_systems.Length]);
     }
 
-    public static GameData CreateData<T>(Player p, GameSystem s) where T : GameData
+    internal static GameData CreateData<T>(Player p, GameSystem s) where T : GameData
     {
         int i = SystemIndex(s);
         if (i >= 0)
@@ -81,18 +81,19 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static void SetData<T>(Player p, T data) where T : GameData
+    internal static void SetData<T>(Player p, T data) where T : GameData
     {
         GameSystem s = Instance._systems.FirstOrDefault(sys => sys.DataType == typeof(T));
         if (s != null)
             Instance._playerData[p][SystemIndex(s)] = data;
     }
 
-    internal GameData GetPlayerData<T>(Player p) where T : GameData
+    internal static GameData[] GetPlayerData(Player p) => Instance._playerData[p];
+    internal static GameData GetPlayerData<T>(Player p) where T : GameData
     {
-        GameSystem s = _systems.FirstOrDefault(sys => sys.DataType == typeof(T));
+        GameSystem s = Instance._systems.FirstOrDefault(sys => sys.DataType == typeof(T));
         if (s != null)
-            return (_playerData[p][SystemIndex(s)] as T);
+            return (Instance._playerData[p][SystemIndex(s)] as T);
         return null;
     }
 
