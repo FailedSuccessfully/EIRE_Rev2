@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public static Player[] Players => Instance._playerData.Keys.ToArray();
+    private static DriverPool driverPool;
     GameSystem[] _systems;
     Dictionary<Player, GameData[]> _playerData;
 
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
 
         Instance = this;
+        driverPool = new DriverPool(32);
         _systems = new GameSystem[0];
         _playerData = new Dictionary<Player, GameData[]>();
     }
@@ -25,17 +27,31 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         var p1 = new Player();
-        Log(p1);
-        var p2 = new Player();
-        Log(p2);
         RegisterPlayer(p1);
-        RegisterPlayer(p2);
         InputController ic = new InputController();
         RegisterSystem(ic);
-        Log(ic.DataType);
         ic.InitPlayers();
-        Log(GetPlayerData<InputData>(Players[0]));
+        CharacterManager cm = new CharacterManager();
+        RegisterSystem(cm);
+        cm.InitPlayers();
+        var a = driverPool.Assign<Player, CharacterDriver>(p1);
+
+        Log(a);
+        /*
+var p2 = new Player();
+Log(p2);
+
+RegisterPlayer(p2);
+InputController ic = new InputController();
+RegisterSystem(ic);
+ic.InitPlayers();
+CharacterManager cm = new CharacterManager();
+RegisterSystem(cm);
+cm.InitPlayers();
+Log(GetPlayerData<CharacterData>(Players[0]));
+*/
     }
 
     // Update is called once per frame
@@ -58,7 +74,7 @@ public class GameManager : MonoBehaviour
         foreach (Player p in Players)
         {
             var pd = _playerData[p];
-            if (!pd.Any(d => d.GetType() == s.DataType))
+            if (!pd.Any(d => d?.GetType() == s.DataType))
             {
                 temp = new GameData[pd.Length + 1];
                 pd.CopyTo(temp, 0);
@@ -69,7 +85,6 @@ public class GameManager : MonoBehaviour
 
     private void RegisterPlayer(Player p)
     {
-        Log($"player is {p}");
         _playerData.Add(p, new GameData[_systems.Length]);
     }
 

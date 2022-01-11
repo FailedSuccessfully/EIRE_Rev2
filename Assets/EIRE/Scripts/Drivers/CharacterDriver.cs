@@ -1,16 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.InputSystem;
 
 public class CharacterDriver : Driver<Player>
 {
     private GameData[] Data => GameManager.GetPlayerData(context);
-    public override void Drive()
+    private CharacterData charData => Data.OfType<CharacterData>().First(); //(data => data.GetType() == typeof(CharacterData))
+    SpriteRenderer spr;
+    BoxCollider2D hurtBox;
+    PlayerInput pInput;
+
+    private void Awake()
     {
-        throw new System.NotImplementedException();
+        spr = gameObject.AddComponent<SpriteRenderer>();
+        hurtBox = gameObject.AddComponent<BoxCollider2D>();
+        hurtBox.size = Vector2.one;
+        pInput = gameObject.AddComponent<PlayerInput>();
+        pInput.actions = new InputActionAsset();
+        this.enabled = false;
     }
-    public override void Mount(Player ctx)
+
+    void Start()
     {
-        base.Mount(ctx);
+        var inputs = Data.OfType<InputData>().First();
+        var move = inputs.Actions.FindAction(PlayerActions.Move.ToString());
+        pInput.actions.AddActionMap(inputs.Actions.Clone());
+        pInput.currentActionMap = pInput.actions.actionMaps[0];
+        pInput.currentActionMap.actions[0].performed += ctx => Move(ctx.ReadValue<Vector2>());
+        pInput.currentActionMap.actions[0].canceled += ctx => Move(Vector3.zero);
+        GameManager.SetData<InputData>(context, inputs);
     }
+
+    void FixedUpdate()
+    {
+        charData.Speed = Vector3.ClampMagnitude(charData.Speed + charData.Direction, charData.MaxSpeed);
+        transform.position += (charData.Speed * charData.BaseSpeed);
+        charData.Speed *= 0.95f;
+        Debug.Log(transform.position);
+    }
+
+    public void Move(Vector3 dir) => charData.Direction = dir;
 }

@@ -1,6 +1,15 @@
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.AddressableAssets;
+public enum PlayerActions
+{
+    Move,
+    ButtonA,
+    ButtonB,
+    ButtonC,
+    Dash,
+    Block
+}
 
 public class InputController : GameSystem
 {
