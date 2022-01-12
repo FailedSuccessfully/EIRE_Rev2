@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.InputSystem;
+using UnityEditor;
 
 public class CharacterDriver : Driver<Player>
 {
@@ -15,6 +16,7 @@ public class CharacterDriver : Driver<Player>
     private void Awake()
     {
         spr = gameObject.AddComponent<SpriteRenderer>();
+        spr.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
         hurtBox = gameObject.AddComponent<BoxCollider2D>();
         hurtBox.size = Vector2.one;
         pInput = gameObject.AddComponent<PlayerInput>();
@@ -36,9 +38,8 @@ public class CharacterDriver : Driver<Player>
     void FixedUpdate()
     {
         charData.Speed = Vector3.ClampMagnitude(charData.Speed + charData.Direction, charData.MaxSpeed);
-        transform.position += (charData.Speed * charData.BaseSpeed);
+        transform.position += (charData.Speed * charData.BaseSpeed * Constants.Speed.Coefficient);
         charData.Speed *= 0.95f;
-        Debug.Log(transform.position);
     }
 
     public void Move(Vector3 dir) => charData.Direction = dir;
