@@ -13,6 +13,7 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
 {
     protected T context;
     public Type DriverType => typeof(T);
+    public T MountContext => context;
 
     private void Start()
     {
@@ -74,6 +75,7 @@ public class DriverPool
     {
         return poolContainer.GetComponentsInChildren<Driver<T>>();
     }
+    public GameObject[] FetchAll() => pool;
 
     private GameObject FetchFree() => free == 0 ? null : pool[poolSize - free];
 }

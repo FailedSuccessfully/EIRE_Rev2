@@ -10,8 +10,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public static Player[] Players => Instance._playerData.Keys.ToArray();
     private static DriverPool driverPool;
+    public static GameObject[] Drivers => driverPool.FetchAll();
+    public static Driver<T>[] GetDriversOfType<T>() where T : IDriveable => driverPool.Fetch<T>();
     GameSystem[] _systems;
     Dictionary<Player, GameData[]> _playerData;
+
+    #region  temporary editor properties
+    public GameObject GameWorld_temp;
+    #endregion
 
     void Awake()
     {
@@ -36,28 +42,22 @@ public class GameManager : MonoBehaviour
         CharacterManager cm = new CharacterManager();
         RegisterSystem(cm);
         cm.InitPlayers();
+        BattleManager bm = new BattleManager(GameWorld_temp.transform, (20 * 2) / 5f);
+        RegisterSystem(bm);
         var a = driverPool.Assign<Player, CharacterDriver>(p1);
 
         Log(a);
-        /*
-var p2 = new Player();
-Log(p2);
-
-RegisterPlayer(p2);
-InputController ic = new InputController();
-RegisterSystem(ic);
-ic.InitPlayers();
-CharacterManager cm = new CharacterManager();
-RegisterSystem(cm);
-cm.InitPlayers();
-Log(GetPlayerData<CharacterData>(Players[0]));
-*/
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    void FixedUpdate()
+    {
+        _systems[2].onFixedUpdate();
     }
 
     private static int SystemIndex(GameSystem s) => Array.IndexOf(Instance._systems, s);
@@ -104,7 +104,7 @@ Log(GetPlayerData<CharacterData>(Players[0]));
     }
 
     internal static GameData[] GetPlayerData(Player p) => Instance._playerData[p];
-    internal static GameData GetPlayerData<T>(Player p) where T : GameData
+    internal static T GetPlayerData<T>(Player p) where T : GameData
     {
         GameSystem s = Instance._systems.FirstOrDefault(sys => sys.DataType == typeof(T));
         if (s != null)
@@ -113,4 +113,11 @@ Log(GetPlayerData<CharacterData>(Players[0]));
     }
 
     public static void Log(object msg) => Debug.Log(msg);
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        if (_systems != null && _systems.OfType<BattleManager>().Count() > 0)
+            Gizmos.DrawWireSphere(GameWorld_temp.transform.position, _systems.OfType<BattleManager>().First().StageRadius);
+    }
 }

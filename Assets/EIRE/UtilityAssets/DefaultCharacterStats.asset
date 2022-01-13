@@ -19,4 +19,4 @@ MonoBehaviour:
   Barrier: 100
   BarrierRegen: 100
   BaseSpeed: 1
-  MaxSpeed: 5
+  MaxSpeed: 100

@@ -6,4 +6,7 @@ public abstract class GameSystem
     {
         DataType = typeof(GameSystem);
     }
+
+    public virtual void onUpdate() { }
+    public virtual void onFixedUpdate() { }
 }
