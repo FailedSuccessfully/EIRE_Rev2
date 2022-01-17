@@ -56,7 +56,6 @@ public class DriverPool
         GameObject obj = FetchExistingOrFree<T>(context);
         if (obj)
         {
-            free--;
             obj.name += $" ~ {typeof(U).ToString()}";
             if (!obj.TryGetComponent<U>(out U comp))
             {
@@ -66,6 +65,7 @@ public class DriverPool
                 }
                 comp = obj.AddComponent<U>();
             }
+            free--;
             return comp.Mount(context) as U;
         }
         return null;
@@ -86,7 +86,7 @@ public class DriverPool
     private GameObject FetchFree() => free == 0 ? null : pool[poolSize - free];
     private GameObject FetchExistingOrFree<T>(T context) where T : IDriveable
     {
-        Driver<T> driver = Fetch<T>().Where(driver => driver.enabled)
+        Driver<T> driver = Fetch<T>().Where(driver => !driver.enabled)
                                     .FirstOrDefault(driver => driver.MountContext.Equals(context));
         return driver ? driver.gameObject : FetchFree();
     }
