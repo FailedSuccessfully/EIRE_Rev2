@@ -48,14 +48,16 @@ public class DriverPool
         {
             pool[i] = new GameObject($"Driver-{i}");
             pool[i].transform.parent = poolContainer.transform;
+            pool[i].SetActive(false);
         }
     }
 
     public U Assign<T, U>(T context) where T : IDriveable where U : Driver<T>
     {
-        GameObject obj = FetchExistingOrFree<T>(context);
+        GameObject obj = FetchFree();
         if (obj)
         {
+            free--;
             obj.name += $" ~ {typeof(U).ToString()}";
             if (!obj.TryGetComponent<U>(out U comp))
             {
@@ -65,7 +67,7 @@ public class DriverPool
                 }
                 comp = obj.AddComponent<U>();
             }
-            free--;
+            obj.SetActive(true);
             return comp.Mount(context) as U;
         }
         return null;
@@ -74,7 +76,10 @@ public class DriverPool
     {
         driver.Unmount();
         driver.name = driver.name.Split(' ')[0];
-        free++;
+        driver.gameObject.SetActive(false);
+        var nPool = new GameObject[poolSize];
+        pool = pool.OrderBy(obj => obj.activeSelf == true).ToArray();
+        free = pool.Count(obj => !obj.activeSelf);
     }
 
     public Driver<T>[] Fetch<T>() where T : IDriveable
