@@ -21,11 +21,17 @@ public class BattleManager : GameSystem
         {
             if (!InsideStageBoundaries(driver.gameObject))
             {
-                Debug.Log(Vector3.Distance(driver.transform.position, Stage.position));
+                //Debug.Log(Vector3.Distance(driver.transform.position, Stage.position));
                 CharacterData d = GameManager.GetPlayerData<CharacterData>(driver.MountContext);
                 d.Speed = BounceIn(driver.transform, d.Speed);
                 GameManager.SetData<CharacterData>(driver.MountContext, d);
+
             }
+        }
+
+        foreach (AttackDriver driver in GameManager.GetDriversOfType<AttackProps>())
+        {
+            driver.transform.position = MoveStrategy.MoveTable[driver.MountContext.moveStrat].Move(driver);
         }
     }
 
@@ -38,4 +44,6 @@ public class BattleManager : GameSystem
         Vector3 reflection = Vector3.Reflect(movement, (Stage.position + toBounce.position).normalized);
         return reflection * 2f;
     }
+
+    public static AttackDriver RequestAttack(AttackProps attackProps) => GameManager.RequestDriver<AttackProps, AttackDriver>(attackProps);
 }

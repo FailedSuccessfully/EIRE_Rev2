@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.InputSystem;
 using UnityEditor;
+using System;
 
 public class CharacterDriver : Driver<Player>
 {
@@ -27,14 +28,16 @@ public class CharacterDriver : Driver<Player>
     void Start()
     {
         var inputs = Data.OfType<InputData>().First();
-        var move = inputs.Actions.FindAction(PlayerActions.Move.ToString());
         pInput.actions.AddActionMap(inputs.Actions.Clone());
         pInput.currentActionMap = pInput.actions.actionMaps[0];
-        pInput.currentActionMap.actions[0].performed += ctx => Move(ctx.ReadValue<Vector2>());
-        pInput.currentActionMap.actions[0].canceled += ctx => Move(Vector3.zero);
+        var move = pInput.currentActionMap.FindAction(PlayerActions.Move.ToString());
+        var a = pInput.currentActionMap.FindAction(PlayerActions.ButtonA.ToString());
+
+        AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
+        AssignSpawnAction(a, charData.AttackProperties[0]);
+
         GameManager.SetData<InputData>(context, inputs);
     }
-
     void FixedUpdate()
     {
         charData.Speed = Vector3.ClampMagnitude(charData.Speed + charData.Direction, charData.MaxSpeed);
@@ -43,4 +46,21 @@ public class CharacterDriver : Driver<Player>
     }
 
     public void Move(Vector3 dir) => charData.Direction = dir;
+
+    private void AssignAction(InputAction action, Action<InputAction.CallbackContext> onStarted = null,
+                                                    Action<InputAction.CallbackContext> onPerformed = null,
+                                                    Action<InputAction.CallbackContext> onCanceled = null)
+    {
+        if (!(onStarted is null))
+            action.started += onStarted;
+        if (!(onPerformed is null))
+            action.performed += onPerformed;
+        if (!(onCanceled is null))
+            action.canceled += onCanceled;
+    }
+
+    private void AssignSpawnAction(InputAction action, AttackProps attackProps)
+    {
+        SpawnStrategy.SpawnTable[attackProps.spawnStrat].SetSpawn(action, attackProps);
+    }
 }

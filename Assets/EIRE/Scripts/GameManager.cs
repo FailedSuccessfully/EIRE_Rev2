@@ -112,6 +112,9 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Assign<T, U>(context);
+
+
     public static void Log(object msg) => Debug.Log(msg);
 
     private void OnDrawGizmos()

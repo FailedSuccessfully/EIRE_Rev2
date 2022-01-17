@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "A",
+                    "name": "ButtonA",
                     "type": "Button",
                     "id": "53abc115-1fcb-4848-8d77-3380f9d7a796",
                     "expectedControlType": "Button",
@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "B",
+                    "name": "ButtonB",
                     "type": "Button",
                     "id": "a51d7953-ad08-46d1-982f-44bd56422e7d",
                     "expectedControlType": "Button",
@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "C",
+                    "name": "ButtonC",
                     "type": "Button",
                     "id": "4bb68c54-94a0-43ce-8596-f78af292c89f",
                     "expectedControlType": "Button",
@@ -123,7 +123,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Default Keyboard",
-                    "action": "A",
+                    "action": "ButtonA",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -134,7 +134,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Default Keyboard",
-                    "action": "B",
+                    "action": "ButtonB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -145,7 +145,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Default Keyboard",
-                    "action": "C",
+                    "action": "ButtonC",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -187,7 +187,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "A",
+                    "name": "ButtonA",
                     "type": "Button",
                     "id": "1d850c88-f20e-4217-b9ee-1aee43162c77",
                     "expectedControlType": "Button",
@@ -196,7 +196,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "B",
+                    "name": "ButtonB",
                     "type": "Button",
                     "id": "116f5e0b-d3af-4f33-bca4-c6404411f921",
                     "expectedControlType": "Button",
@@ -205,7 +205,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "C",
+                    "name": "ButtonC",
                     "type": "Button",
                     "id": "dda74d74-23e3-478e-b3bb-d9659b46d19d",
                     "expectedControlType": "Button",
@@ -295,7 +295,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Default Keyboard",
-                    "action": "A",
+                    "action": "ButtonA",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -306,7 +306,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Default Keyboard",
-                    "action": "B",
+                    "action": "ButtonB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -317,7 +317,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Default Keyboard",
-                    "action": "C",
+                    "action": "ButtonC",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

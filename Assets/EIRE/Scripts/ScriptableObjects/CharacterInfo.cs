@@ -6,4 +6,6 @@ using UnityEngine;
 public class CharacterInfo : ScriptableObject
 {
     public float Health, HealthRegen, Mana, ManaRegen, Barrier, BarrierRegen, BaseSpeed, MaxSpeed;
+
+    public AttackProps propsA, propsB, propsC;
 }

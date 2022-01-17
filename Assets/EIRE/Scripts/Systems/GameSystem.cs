@@ -9,4 +9,6 @@ public abstract class GameSystem
 
     public virtual void onUpdate() { }
     public virtual void onFixedUpdate() { }
+
+    //?public virtual void RequestDriver() { }
 }

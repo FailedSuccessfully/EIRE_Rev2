@@ -13,7 +13,7 @@ public class CharacterManager : GameSystem
 
     public void InitPlayers()
     {
-        CharacterData P1, P2;
+        CharacterData P1;//, P2;
         var m = Addressables.LoadAssetAsync<CharacterInfo>("CharacterData/DefaultStats").WaitForCompletion();
         P1 = new CharacterData()
         {
@@ -23,7 +23,10 @@ public class CharacterManager : GameSystem
             BaseSpeed = m.BaseSpeed,
             MaxSpeed = m.MaxSpeed,
             Direction = Vector3.zero,
-            Speed = Vector3.zero
+            Speed = Vector3.zero,
+            AttackProperties = new AttackProps[] { m.propsA, m.propsB, m.propsC }
+
+            //TODO: handle attack props
         };
         GameManager.CreateData<CharacterData>(GameManager.Players[0], this);
         GameManager.SetData<CharacterData>(GameManager.Players[0], P1);

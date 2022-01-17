@@ -29,7 +29,6 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
     public virtual void Unmount()
     {
         enabled = false;
-        Destroy(this);
     }
 }
 
@@ -54,13 +53,20 @@ public class DriverPool
 
     public U Assign<T, U>(T context) where T : IDriveable where U : Driver<T>
     {
-        GameObject obj = FetchFree();
+        GameObject obj = FetchExistingOrFree<T>(context);
         if (obj)
         {
             free--;
             obj.name += $" ~ {typeof(U).ToString()}";
-            var comp = obj.AddComponent<U>().Mount(context);
-            return comp as U;
+            if (!obj.TryGetComponent<U>(out U comp))
+            {
+                foreach (var toRemove in obj.GetComponents<Driver<IDriveable>>())
+                {
+                    GameObject.Destroy(toRemove);
+                }
+                comp = obj.AddComponent<U>();
+            }
+            return comp.Mount(context) as U;
         }
         return null;
     }
@@ -78,4 +84,10 @@ public class DriverPool
     public GameObject[] FetchAll() => pool;
 
     private GameObject FetchFree() => free == 0 ? null : pool[poolSize - free];
+    private GameObject FetchExistingOrFree<T>(T context) where T : IDriveable
+    {
+        Driver<T> driver = Fetch<T>().Where(driver => driver.enabled)
+                                    .FirstOrDefault(driver => driver.MountContext.Equals(context));
+        return driver ? driver.gameObject : FetchFree();
+    }
 }

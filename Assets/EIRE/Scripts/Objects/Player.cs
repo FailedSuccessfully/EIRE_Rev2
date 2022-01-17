@@ -15,6 +15,6 @@ public class Player : IDriveable
 
     public void AcceptDriver(Driver<IDriveable> driver)
     {
-        driver.Mount(this);
+        if (driver.DriverType == typeof(Player)) driver.Mount(this);
     }
 }

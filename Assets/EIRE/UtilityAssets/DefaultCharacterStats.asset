@@ -18,5 +18,8 @@ MonoBehaviour:
   ManaRegen: 150
   Barrier: 100
   BarrierRegen: 100
-  BaseSpeed: 1
-  MaxSpeed: 100
+  BaseSpeed: 1.5
+  MaxSpeed: 10
+  propsA: {fileID: 11400000, guid: b0bd9be5bf2a57240847ce4f4416eb49, type: 2}
+  propsB: {fileID: 0}
+  propsC: {fileID: 0}
