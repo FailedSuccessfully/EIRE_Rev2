@@ -88,7 +88,7 @@ public class DriverPool
     }
     public GameObject[] FetchAll() => pool;
 
-    private GameObject FetchFree() => free == 0 ? null : pool[poolSize - free];
+    private GameObject FetchFree() => pool.FirstOrDefault(obj => !obj.activeSelf);
     private GameObject FetchExistingOrFree<T>(T context) where T : IDriveable
     {
         Driver<T> driver = Fetch<T>().Where(driver => !driver.enabled)
