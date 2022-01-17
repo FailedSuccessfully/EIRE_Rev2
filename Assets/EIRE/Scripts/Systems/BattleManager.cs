@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BattleManager : GameSystem
@@ -29,9 +30,10 @@ public class BattleManager : GameSystem
             }
         }
 
-        foreach (AttackDriver driver in GameManager.GetDriversOfType<AttackProps>())
+        foreach (AttackDriver driver in GameManager.GetDriversOfType<AttackProps>().Where(driver => driver.enabled))
         {
             driver.transform.position = MoveStrategy.MoveTable[driver.MountContext.moveStrat].Move(driver);
+            if (driver.isTTL) RequestRelease(driver as Driver<AttackProps>);
         }
     }
 
@@ -46,4 +48,5 @@ public class BattleManager : GameSystem
     }
 
     public static AttackDriver RequestAttack(AttackProps attackProps) => GameManager.RequestDriver<AttackProps, AttackDriver>(attackProps);
+    public static void RequestRelease(Driver<AttackProps> driver) => GameManager.UnmountDriver(driver);
 }

@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(driverPool.Fetch<Player>().Length);
     }
 
     void FixedUpdate()
@@ -113,6 +112,7 @@ public class GameManager : MonoBehaviour
     }
 
     internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Assign<T, U>(context);
+    internal static void UnmountDriver<T>(Driver<T> driver) where T : IDriveable => driverPool.Release(driver);
 
 
     public static void Log(object msg) => Debug.Log(msg);
