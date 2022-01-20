@@ -44,9 +44,10 @@ public class GameManager : MonoBehaviour
         cm.InitPlayers();
         BattleManager bm = new BattleManager(GameWorld_temp.transform, (20 * 2) / 5f);
         RegisterSystem(bm);
-        var a = driverPool.Assign<Player, CharacterDriver>(p1);
+        var d = driverPool.Request<CharacterDriver, Player>(true).gameObject;
+        p1.AcceptDriver(d);
 
-        Log(a);
+        Log("beb");
     }
 
     // Update is called once per frame
@@ -111,7 +112,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Assign<T, U>(context);
+    internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Request<U, T>(false);
     internal static void UnmountDriver<T>(Driver<T> driver) where T : IDriveable => driverPool.Release(driver);
 
 

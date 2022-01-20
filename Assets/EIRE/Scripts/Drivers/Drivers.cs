@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IDriveable
 {
-    public void AcceptDriver(Driver<IDriveable> driver);
+    public void AcceptDriver(GameObject driver);
 }
 
 
@@ -22,14 +22,15 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
 
     public virtual Driver<T> Mount(T ctx)
     {
+        this.enabled = true;
         context = ctx;
-        enabled = true;
         return this;
     }
     public virtual void Unmount()
     {
         enabled = false;
     }
+
 }
 
 public class DriverPool
@@ -52,23 +53,23 @@ public class DriverPool
         }
     }
 
-    public U Assign<T, U>(T context) where T : IDriveable where U : Driver<T>
+    public T Request<T, U>(bool setActive) where T : Driver<U> where U : IDriveable
     {
         GameObject obj = FetchFree();
         if (obj)
         {
             free--;
-            obj.name += $" ~ {typeof(U).ToString()}";
-            if (!obj.TryGetComponent<U>(out U comp))
+            obj.name += $" ~ {typeof(T).ToString()}";
+            if (!obj.TryGetComponent<T>(out T comp))
             {
                 foreach (var toRemove in obj.GetComponents<Driver<IDriveable>>())
                 {
                     GameObject.Destroy(toRemove);
                 }
-                comp = obj.AddComponent<U>();
+                comp = obj.AddComponent<T>();
             }
-            obj.SetActive(true);
-            return comp.Mount(context) as U;
+            obj.SetActive(setActive);
+            return comp;
         }
         return null;
     }

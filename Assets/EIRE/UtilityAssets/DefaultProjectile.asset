@@ -15,7 +15,7 @@ MonoBehaviour:
   damage: 5
   pushback: 10
   cost: 20
-  ttl: 5
+  ttl: 2
   charge: 0
   release: 0
   currentCharge: 0

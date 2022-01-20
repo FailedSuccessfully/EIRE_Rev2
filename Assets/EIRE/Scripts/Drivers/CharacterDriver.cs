@@ -21,7 +21,7 @@ public class CharacterDriver : Driver<Player>
         hurtBox = gameObject.AddComponent<BoxCollider2D>();
         hurtBox.size = Vector2.one;
         pInput = gameObject.AddComponent<PlayerInput>();
-        pInput.actions = new InputActionAsset();
+        pInput.actions = ScriptableObject.CreateInstance<InputActionAsset>();
         this.enabled = false;
     }
 
@@ -61,6 +61,6 @@ public class CharacterDriver : Driver<Player>
 
     private void AssignSpawnAction(InputAction action, AttackProps attackProps)
     {
-        SpawnStrategy.SpawnTable[attackProps.spawnStrat].SetSpawn(action, attackProps);
+        SpawnStrategy.SpawnTable[attackProps.spawnStrat].SetSpawn(action, attackProps, charData.playerIndex);
     }
 }

@@ -11,9 +11,14 @@ public class AttackProps : ScriptableObject, IDriveable
     public SpawnStrategies spawnStrat;
     [SerializeField] public float speed = 1f;
 
-    public void AcceptDriver(Driver<IDriveable> driver)
+
+    public void AcceptDriver(GameObject driver)
     {
-        if (driver.DriverType == typeof(AttackProps)) driver.Mount(this);
+
+        if (driver.TryGetComponent<Driver<AttackProps>>(out Driver<AttackProps> driveComponent))
+        {
+            driveComponent.Mount(this);
+        }
     }
 }
 

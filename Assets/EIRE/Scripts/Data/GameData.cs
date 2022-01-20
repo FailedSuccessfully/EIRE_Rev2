@@ -12,8 +12,10 @@ public class InputData : GameData
 
 public class CharacterData : GameData
 {
+    public int playerIndex;
     public Vector3 Direction, Speed;
     public float BaseSpeed, MaxSpeed;
     public Resource Health, Mana, Barrier;
     public AttackProps[] AttackProperties;
+
 }

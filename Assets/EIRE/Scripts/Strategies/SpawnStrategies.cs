@@ -12,7 +12,7 @@ public enum SpawnStrategies
 }
 public interface ISpawnStrategy
 {
-    void SetSpawn(InputAction action, AttackProps props);
+    void SetSpawn(InputAction action, AttackProps props, int playerIndex);
 }
 
 public static class SpawnStrategy
@@ -25,8 +25,12 @@ public static class SpawnStrategy
 
 public class SpawnImmediate : ISpawnStrategy
 {
-    public void SetSpawn(InputAction action, AttackProps props)
+    public void SetSpawn(InputAction action, AttackProps props, int playerIndex)
     {
-        action.started += ctx => { var a = BattleManager.RequestAttack(props); a.Show(); };
+        action.started += ctx =>
+        {
+            var a = BattleManager.RequestAttack(props, playerIndex);
+            a.Show();
+        };
     }
 }

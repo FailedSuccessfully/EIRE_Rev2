@@ -47,6 +47,13 @@ public class BattleManager : GameSystem
         return reflection * 2f;
     }
 
-    public static AttackDriver RequestAttack(AttackProps attackProps) => GameManager.RequestDriver<AttackProps, AttackDriver>(attackProps);
+    public static AttackDriver RequestAttack(AttackProps attackProps, int playerIndex)
+    {
+        var driver = GameManager.RequestDriver<AttackProps, AttackDriver>(attackProps);
+        attackProps.AcceptDriver(driver.gameObject);
+        // handle driver activation here
+        driver.transform.position = GameManager.Players[playerIndex].Driver.transform.position;
+        return driver;
+    }
     public static void RequestRelease(Driver<AttackProps> driver) => GameManager.UnmountDriver(driver);
 }

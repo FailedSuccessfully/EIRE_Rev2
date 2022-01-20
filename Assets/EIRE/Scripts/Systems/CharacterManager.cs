@@ -17,6 +17,7 @@ public class CharacterManager : GameSystem
         var m = Addressables.LoadAssetAsync<CharacterInfo>("CharacterData/DefaultStats").WaitForCompletion();
         P1 = new CharacterData()
         {
+            playerIndex = 0,
             Health = new Resource() { Max = m.Health, Current = m.Health, Rate = m.HealthRegen, Regen = isRegen(m.HealthRegen) },
             Mana = new Resource() { Max = m.Mana, Current = m.Mana, Rate = m.ManaRegen, Regen = isRegen(m.ManaRegen) },
             Barrier = new Resource() { Max = m.Barrier, Current = m.Barrier, Rate = m.BarrierRegen, Regen = isRegen(m.BarrierRegen) },
@@ -24,9 +25,10 @@ public class CharacterManager : GameSystem
             MaxSpeed = m.MaxSpeed,
             Direction = Vector3.zero,
             Speed = Vector3.zero,
-            AttackProperties = new AttackProps[] { m.propsA, m.propsB, m.propsC }
+            AttackProperties = new AttackProps[] { m.propsA,
+                                                    m.propsB,
+                                                    m.propsC }
 
-            //TODO: handle attack props
         };
         GameManager.CreateData<CharacterData>(GameManager.Players[0], this);
         GameManager.SetData<CharacterData>(GameManager.Players[0], P1);

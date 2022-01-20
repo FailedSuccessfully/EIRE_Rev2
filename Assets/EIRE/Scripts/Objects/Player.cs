@@ -6,6 +6,8 @@ public class Player : IDriveable
 {
     private static int counter = 0;
     public int index;
+    private Driver<Player> myDriver;
+    public Driver<Player> Driver => myDriver;
 
     public Player()
     {
@@ -13,8 +15,12 @@ public class Player : IDriveable
         counter++;
     }
 
-    public void AcceptDriver(Driver<IDriveable> driver)
+    public void AcceptDriver(GameObject driver)
     {
-        if (driver.DriverType == typeof(Player)) driver.Mount(this);
+
+        if (driver.TryGetComponent<Driver<Player>>(out Driver<Player> driveComponent))
+        {
+            myDriver = driveComponent.Mount(this);
+        }
     }
 }

@@ -35,6 +35,7 @@ public class AttackDriver : Driver<AttackProps>
 
     public void Show()
     {
+        gameObject.SetActive(true);
         transform.localScale = Vector3.one * context.scale;
         if (context.sprite)
             spr.sprite = context.sprite;
