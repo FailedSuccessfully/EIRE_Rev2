@@ -50,9 +50,14 @@ public class BattleManager : GameSystem
     public static AttackDriver RequestAttack(AttackProps attackProps, int playerIndex)
     {
         var driver = GameManager.RequestDriver<AttackProps, AttackDriver>(attackProps);
-        attackProps.AcceptDriver(driver.gameObject);
-        // handle driver activation here
-        driver.transform.position = GameManager.Players[playerIndex].Driver.transform.position;
+        if (driver)
+        {
+            attackProps.AcceptDriver(driver.gameObject);
+            driver.transform.position = GameManager.Players[playerIndex].Driver.transform.position;
+
+            // Set targeting
+            TargetStrategy.TargetTable[attackProps.targetStrat].SetTargeting(driver, GameManager.Players[playerIndex].Driver.Target);
+        }
         return driver;
     }
     public static void RequestRelease(Driver<AttackProps> driver) => GameManager.UnmountDriver(driver);

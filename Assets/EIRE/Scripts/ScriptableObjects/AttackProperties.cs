@@ -9,6 +9,7 @@ public class AttackProps : ScriptableObject, IDriveable
     [SerializeReference] public Sprite sprite;
     public MoveStrategies moveStrat;
     public SpawnStrategies spawnStrat;
+    public TargetStrategies targetStrat;
     [SerializeField] public float speed = 1f;
 
 

@@ -30,7 +30,7 @@ public class SpawnImmediate : ISpawnStrategy
         action.started += ctx =>
         {
             var a = BattleManager.RequestAttack(props, playerIndex);
-            a.Show();
+            a?.Show();
         };
     }
 }

@@ -27,6 +27,7 @@ public class InputController : GameSystem
         P2 = new InputData() { Actions = m.Result.FindActionMap("Player 2") };
         GameManager.CreateData<InputData>(GameManager.Players[0], this);
         GameManager.SetData<InputData>(GameManager.Players[0], P1);
-        //GameManager.SetData<InputData>(GameManager.Players[1], P2);
+        GameManager.CreateData<InputData>(GameManager.Players[1], this);
+        GameManager.SetData<InputData>(GameManager.Players[1], P2);
     }
 }

@@ -14,6 +14,9 @@ public class CharacterDriver : Driver<Player>
     BoxCollider2D hurtBox;
     PlayerInput pInput;
 
+    Transform target;
+    public Transform Target => target;
+
     private void Awake()
     {
         spr = gameObject.AddComponent<SpriteRenderer>();
@@ -22,6 +25,7 @@ public class CharacterDriver : Driver<Player>
         hurtBox.size = Vector2.one;
         pInput = gameObject.AddComponent<PlayerInput>();
         pInput.actions = ScriptableObject.CreateInstance<InputActionAsset>();
+        pInput.notificationBehavior = PlayerNotifications.InvokeUnityEvents;
         this.enabled = false;
     }
 
@@ -32,13 +36,18 @@ public class CharacterDriver : Driver<Player>
         pInput.currentActionMap = pInput.actions.actionMaps[0];
         var move = pInput.currentActionMap.FindAction(PlayerActions.Move.ToString());
         var a = pInput.currentActionMap.FindAction(PlayerActions.ButtonA.ToString());
+        //var test = pInput.currentActionMap.FindAction("Tester");
 
         AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
         AssignSpawnAction(a, charData.AttackProperties[0]);
+        //if (context.index == 0)
+        //    AssignSpawnAction(test, charData.AttackProperties[0]);
 
         GameManager.SetData<InputData>(context, inputs);
+
+        target = GameManager.RequestTarget(context);
     }
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
         charData.Speed = Vector3.ClampMagnitude(charData.Speed + charData.Direction, charData.MaxSpeed);
         transform.position += (charData.Speed * charData.BaseSpeed * Constants.Speed.Coefficient);

@@ -14,12 +14,30 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
     protected T context;
     public Type DriverType => typeof(T);
     public T MountContext => context;
+    public delegate void Hook();
+    internal Hook OnUpdate, OnFixedUpdate, OnEnableHook, OnDisableHook;
+
 
     private void Start()
     {
-        Debug.Log($"start {gameObject.name}");
+    }
+    protected virtual void Update()
+    {
+        OnUpdate?.Invoke();
     }
 
+    protected virtual void FixedUpdate()
+    {
+        OnFixedUpdate?.Invoke();
+    }
+    protected virtual void OnEnable()
+    {
+        OnEnableHook?.Invoke();
+    }
+    protected virtual void OnDisable()
+    {
+        OnDisableHook?.Invoke();
+    }
     public virtual Driver<T> Mount(T ctx)
     {
         this.enabled = true;
@@ -53,6 +71,7 @@ public class DriverPool
         }
     }
 
+    //TODO: Format this to be consistent with similar generic functions
     public T Request<T, U>(bool setActive) where T : Driver<U> where U : IDriveable
     {
         GameObject obj = FetchFree();

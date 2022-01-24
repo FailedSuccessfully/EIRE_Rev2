@@ -7,7 +7,7 @@ public class Player : IDriveable
     private static int counter = 0;
     public int index;
     private Driver<Player> myDriver;
-    public Driver<Player> Driver => myDriver;
+    public CharacterDriver Driver => (CharacterDriver)myDriver;
 
     public Player()
     {

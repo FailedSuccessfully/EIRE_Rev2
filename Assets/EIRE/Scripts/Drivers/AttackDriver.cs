@@ -17,18 +17,19 @@ public class AttackDriver : Driver<AttackProps>
         spr = gameObject.AddComponent<SpriteRenderer>();
 
     }
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
         timer -= Time.fixedDeltaTime;
-        Debug.Log(isTTL);
+
     }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
         spr.enabled = false;
+        base.OnEnable();
     }
 
-    void OnDisable()
+    protected override void OnDisable()
     {
         spr.enabled = false;
     }

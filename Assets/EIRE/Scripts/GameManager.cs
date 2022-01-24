@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
 
         Instance = this;
-        driverPool = new DriverPool(32);
+        driverPool = new DriverPool(64);
         _systems = new GameSystem[0];
         _playerData = new Dictionary<Player, GameData[]>();
     }
@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
     {
 
         var p1 = new Player();
+        var p2 = new Player();
         RegisterPlayer(p1);
+        RegisterPlayer(p2);
         InputController ic = new InputController();
         RegisterSystem(ic);
         ic.InitPlayers();
@@ -44,8 +46,10 @@ public class GameManager : MonoBehaviour
         cm.InitPlayers();
         BattleManager bm = new BattleManager(GameWorld_temp.transform, (20 * 2) / 5f);
         RegisterSystem(bm);
-        var d = driverPool.Request<CharacterDriver, Player>(true).gameObject;
-        p1.AcceptDriver(d);
+        var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
+        p1.AcceptDriver(d1);
+        var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
+        p2.AcceptDriver(d2);
 
         Log("beb");
     }
@@ -115,7 +119,12 @@ public class GameManager : MonoBehaviour
     internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Request<U, T>(false);
     internal static void UnmountDriver<T>(Driver<T> driver) where T : IDriveable => driverPool.Release(driver);
 
-
+    public static Transform RequestTarget(Player requestor)
+    {
+        // DO NOTE: this is very stiff and wants there to be 2 players
+        int targetIndex = Math.Abs(1 - requestor.index); // This only works for 2 players
+        return Players[targetIndex].Driver.transform;
+    }
     public static void Log(object msg) => Debug.Log(msg);
 
     private void OnDrawGizmos()
