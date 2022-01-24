@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AttackDriver : Driver<AttackProps>
 {
     SpriteRenderer spr;
+    SphereCollider hitSphere;
     float timer;
     public bool isTTL => !(timer > 0f);
     public override Driver<AttackProps> Mount(AttackProps ctx)
@@ -15,6 +17,8 @@ public class AttackDriver : Driver<AttackProps>
     void Awake()
     {
         spr = gameObject.AddComponent<SpriteRenderer>();
+        hitSphere = gameObject.AddComponent<SphereCollider>();
+        hitSphere.radius = 1f / context.scale;
 
     }
     protected override void FixedUpdate()

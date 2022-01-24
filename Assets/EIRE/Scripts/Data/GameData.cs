@@ -19,3 +19,8 @@ public class CharacterData : GameData
     public AttackProps[] AttackProperties;
 
 }
+
+public class BattleData : GameData
+{
+    public int layer;
+}

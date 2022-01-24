@@ -46,12 +46,13 @@ public class GameManager : MonoBehaviour
         cm.InitPlayers();
         BattleManager bm = new BattleManager(GameWorld_temp.transform, (20 * 2) / 5f);
         RegisterSystem(bm);
+        bm.InitPlayers();
         var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
         p1.AcceptDriver(d1);
         var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
         p2.AcceptDriver(d2);
 
-        Log("beb");
+        Log("Game Manager Finish 'Start'");
     }
 
     // Update is called once per frame

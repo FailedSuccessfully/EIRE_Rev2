@@ -11,7 +11,8 @@ public class CharacterDriver : Driver<Player>
     private GameData[] Data => GameManager.GetPlayerData(context);
     private CharacterData charData => Data.OfType<CharacterData>().First(); //(data => data.GetType() == typeof(CharacterData))
     SpriteRenderer spr;
-    BoxCollider2D hurtBox;
+    SphereCollider hurtSphere;
+    Rigidbody rigid;
     PlayerInput pInput;
 
     Transform target;
@@ -21,8 +22,11 @@ public class CharacterDriver : Driver<Player>
     {
         spr = gameObject.AddComponent<SpriteRenderer>();
         spr.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
-        hurtBox = gameObject.AddComponent<BoxCollider2D>();
-        hurtBox.size = Vector2.one;
+        hurtSphere = gameObject.AddComponent<SphereCollider>();
+        hurtSphere.radius = transform.localScale.magnitude * 0.1f;
+        rigid = gameObject.AddComponent<Rigidbody>();
+        rigid.useGravity = false;
+        rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         pInput = gameObject.AddComponent<PlayerInput>();
         pInput.actions = ScriptableObject.CreateInstance<InputActionAsset>();
         pInput.notificationBehavior = PlayerNotifications.InvokeUnityEvents;
@@ -31,6 +35,8 @@ public class CharacterDriver : Driver<Player>
 
     void Start()
     {
+        gameObject.layer = Data.OfType<BattleData>().First().layer;
+
         var inputs = Data.OfType<InputData>().First();
         pInput.actions.AddActionMap(inputs.Actions.Clone());
         pInput.currentActionMap = pInput.actions.actionMaps[0];
@@ -71,5 +77,10 @@ public class CharacterDriver : Driver<Player>
     private void AssignSpawnAction(InputAction action, AttackProps attackProps)
     {
         SpawnStrategy.SpawnTable[attackProps.spawnStrat].SetSpawn(action, attackProps, charData.playerIndex);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name);
     }
 }

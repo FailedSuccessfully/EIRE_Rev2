@@ -12,8 +12,26 @@ public class BattleManager : GameSystem
 
     public BattleManager(Transform stage, float radius)
     {
+        DataType = typeof(BattleData);
         Stage = stage;
         Radius = radius;
+    }
+
+    public void InitPlayers()
+    {
+        BattleData P1, P2;
+        P1 = new BattleData()
+        {
+            layer = LayerMask.NameToLayer("P1")
+        };
+        P2 = new BattleData()
+        {
+            layer = LayerMask.NameToLayer("P2")
+        };
+        GameManager.CreateData<BattleData>(GameManager.Players[0], this);
+        GameManager.SetData<BattleData>(GameManager.Players[0], P1);
+        GameManager.CreateData<BattleData>(GameManager.Players[1], this);
+        GameManager.SetData<BattleData>(GameManager.Players[1], P2);
     }
 
     public override void onFixedUpdate()
@@ -26,6 +44,7 @@ public class BattleManager : GameSystem
                 CharacterData d = GameManager.GetPlayerData<CharacterData>(driver.MountContext);
                 d.Speed = BounceIn(driver.transform, d.Speed);
                 GameManager.SetData<CharacterData>(driver.MountContext, d);
+
 
             }
         }
@@ -57,6 +76,9 @@ public class BattleManager : GameSystem
 
             // Set targeting
             TargetStrategy.TargetTable[attackProps.targetStrat].SetTargeting(driver, GameManager.Players[playerIndex].Driver.Target);
+
+            // Set layer
+            driver.gameObject.layer = GameManager.Players[playerIndex].Driver.Target.gameObject.layer;
         }
         return driver;
     }
