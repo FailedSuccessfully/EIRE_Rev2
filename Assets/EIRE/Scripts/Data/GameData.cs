@@ -12,6 +12,12 @@ public class InputData : GameData
 
 public class CharacterData : GameData
 {
+    public enum PlayerResource
+    {
+        Health,
+        Mana,
+        Barrier
+    }
     public int playerIndex;
     public Vector3 Direction, Speed;
     public float BaseSpeed, MaxSpeed;
@@ -23,4 +29,9 @@ public class CharacterData : GameData
 public class BattleData : GameData
 {
     public int layer;
+}
+
+public class ResourceData : GameData
+{
+    public Resource[] RoundResources;
 }

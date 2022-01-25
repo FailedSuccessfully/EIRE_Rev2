@@ -7,3 +7,9 @@ public struct Resource
 
     public float BlockTimer;
 }
+public enum PlayerResource
+{
+    Health,
+    Mana,
+    Barrier
+}

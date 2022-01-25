@@ -34,7 +34,7 @@ public class BattleManager : GameSystem
         GameManager.SetData<BattleData>(GameManager.Players[1], P2);
     }
 
-    public override void onFixedUpdate()
+    public override void OnFixedUpdate()
     {
         foreach (CharacterDriver driver in GameManager.GetDriversOfType<Player>())
         {

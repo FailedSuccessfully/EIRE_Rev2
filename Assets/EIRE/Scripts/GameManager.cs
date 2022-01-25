@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
         BattleManager bm = new BattleManager(GameWorld_temp.transform, (20 * 2) / 5f);
         RegisterSystem(bm);
         bm.InitPlayers();
+        ResourceManager rm = new ResourceManager();
+        RegisterSystem(rm);
+        rm.InitPlayers();
         var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
         p1.AcceptDriver(d1);
         var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
@@ -62,7 +65,8 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        _systems[2].onFixedUpdate();
+        _systems[2].OnFixedUpdate();
+        _systems[3].OnFixedUpdate();
     }
 
     private static int SystemIndex(GameSystem s) => Array.IndexOf(Instance._systems, s);

@@ -6,6 +6,7 @@ using UnityEngine;
 public class AttackDriver : Driver<AttackProps>
 {
     SpriteRenderer spr;
+    /// they wont all be sphere so this is hardcoded temporarily
     SphereCollider hitSphere;
     float timer;
     public bool isTTL => !(timer > 0f);
@@ -18,6 +19,7 @@ public class AttackDriver : Driver<AttackProps>
     {
         spr = gameObject.AddComponent<SpriteRenderer>();
         hitSphere = gameObject.AddComponent<SphereCollider>();
+        hitSphere.isTrigger = true;
         hitSphere.radius = 1f / context.scale;
 
     }
@@ -30,12 +32,22 @@ public class AttackDriver : Driver<AttackProps>
     protected override void OnEnable()
     {
         spr.enabled = false;
+        hitSphere.enabled = false;
         base.OnEnable();
     }
 
     protected override void OnDisable()
     {
         spr.enabled = false;
+        hitSphere.enabled = false;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<CharacterDriver>(out CharacterDriver driver))
+        {
+            ResourceManager.LoseResource(CharacterData.PlayerResource.Health, driver.MountContext, MountContext.damage);
+            BattleManager.RequestRelease(this);
+        }
     }
 
     public void Show()
@@ -45,5 +57,6 @@ public class AttackDriver : Driver<AttackProps>
         if (context.sprite)
             spr.sprite = context.sprite;
         spr.enabled = true;
+        hitSphere.enabled = true;
     }
 }
