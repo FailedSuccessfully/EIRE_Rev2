@@ -32,7 +32,7 @@ public class CharacterManager : GameSystem
         };
         P2 = new CharacterData()
         {
-            playerIndex = 0,
+            playerIndex = 1,
             Health = new Resource() { Max = stats.Health, Current = stats.Health, Rate = stats.HealthRegen, Regen = isRegen(stats.HealthRegen) },
             Mana = new Resource() { Max = stats.Mana, Current = stats.Mana, Rate = stats.ManaRegen, Regen = isRegen(stats.ManaRegen) },
             Barrier = new Resource() { Max = stats.Barrier, Current = stats.Barrier, Rate = stats.BarrierRegen, Regen = isRegen(stats.BarrierRegen) },
