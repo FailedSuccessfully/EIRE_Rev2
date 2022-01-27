@@ -55,9 +55,10 @@ public class CharacterDriver : Driver<Player>
     }
     protected override void FixedUpdate()
     {
-        charData.Speed = Vector3.ClampMagnitude(charData.Speed + charData.Direction, charData.MaxSpeed);
-        transform.position += (charData.Speed * charData.BaseSpeed * Constants.Speed.Coefficient);
+        charData.Speed = Vector3.ClampMagnitude(rigid.velocity + charData.Direction, charData.MaxSpeed);
+        //transform.position += (charData.Speed * charData.BaseSpeed * Constants.Speed.Coefficient);
         charData.Speed *= 0.95f;
+        rigid.velocity = charData.Speed;
     }
 
     public void Move(Vector3 dir) => charData.Direction = dir;
@@ -82,5 +83,10 @@ public class CharacterDriver : Driver<Player>
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
+    }
+
+    public void AcceptBounce(Vector3 bounce)
+    {
+        rigid.velocity = bounce;
     }
 }

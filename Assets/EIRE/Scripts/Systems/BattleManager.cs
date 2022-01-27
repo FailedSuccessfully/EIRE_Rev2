@@ -42,7 +42,7 @@ public class BattleManager : GameSystem
             {
                 //Debug.Log(Vector3.Distance(driver.transform.position, Stage.position));
                 CharacterData d = GameManager.GetPlayerData<CharacterData>(driver.MountContext);
-                d.Speed = BounceIn(driver.transform, d.Speed);
+                driver.AcceptBounce(BounceIn(driver.transform, d.Speed));
                 GameManager.SetData<CharacterData>(driver.MountContext, d);
 
 
