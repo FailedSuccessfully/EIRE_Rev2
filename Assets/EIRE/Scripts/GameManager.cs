@@ -1,13 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [DisallowMultipleComponent]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    [SerializeField] private UIDocument UIDoc;
     public static Player[] Players => Instance._playerData.Keys.ToArray();
     private static DriverPool driverPool;
     public static GameObject[] Drivers => driverPool.FetchAll();
@@ -50,6 +51,9 @@ public class GameManager : MonoBehaviour
         ResourceManager rm = new ResourceManager();
         RegisterSystem(rm);
         rm.InitPlayers();
+        UIController uc = new UIController();
+        RegisterSystem(uc);
+        uc.Initialize();
         var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
         p1.AcceptDriver(d1);
         var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
@@ -123,6 +127,17 @@ public class GameManager : MonoBehaviour
 
     internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Request<U, T>(false);
     internal static void UnmountDriver<T>(Driver<T> driver) where T : IDriveable => driverPool.Release(driver);
+    internal static void RequestConnection(GameSystem system, Type[] list)
+    {
+        List<Component> comps = new List<Component>();
+        foreach (Type req in list)
+        {
+            var comp = Instance.GetComponentInChildren(req, true);
+            if (comp)
+                comps.Add(comp);
+        }
+        system.SortConnections(comps);
+    }
 
     public static Transform RequestTarget(Player requestor)
     {
