@@ -35,8 +35,3 @@ public class ResourceData : GameData
 {
     public Resource[] RoundResources;
 }
-
-public class UIData : GameData
-{
-
-}
