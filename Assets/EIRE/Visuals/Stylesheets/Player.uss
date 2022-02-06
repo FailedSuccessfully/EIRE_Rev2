@@ -1,0 +1,41 @@
+.Player {
+    width: 100%;
+    height: 100%;
+}
+
+.HP {
+}
+
+.MP {
+}
+
+.Bar {
+    width: 100%;
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-top-width: 4px;
+    border-bottom-width: 4px;
+    border-left-color: rgba(0, 0, 0, 255);
+    border-right-color: rgba(0, 0, 0, 255);
+    border-top-color: rgba(0, 0, 0, 255);
+    border-bottom-color: rgba(0, 0, 0, 255);
+}
+
+.Resource-Display {
+    width: 100%;
+    height: 50%;
+}
+
+.HP > .Bar {
+    height: 70%;
+    background-color: rgba(217, 68, 93, 255);
+}
+
+.MP > .Bar {
+    height: 40%;
+    background-color: rgba(91, 99, 221, 255);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}

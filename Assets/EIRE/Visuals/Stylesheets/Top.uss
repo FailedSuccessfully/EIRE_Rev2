@@ -1,0 +1,33 @@
+.Top {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.Top-Player {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.Top > .Top-Player {
+    width: 50%;
+    height: 100%;
+    opacity: 0.7;
+}
+
+.Top-P1 {
+    align-items: flex-start;
+    flex-direction: row;
+    margin-right: 5px;
+}
+
+.Top-P2 {
+    margin-left: 5px;
+}
+
+.Top-P2 > .Player > .Resource-Display {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}

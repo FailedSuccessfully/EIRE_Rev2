@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="Stylesheets/Player.uss" />
+    <ui:VisualElement name="Root" class="Player Player-Root">
+        <ui:VisualElement name="HP" class="HP Resource-Display">
+            <ui:VisualElement name="Bar" class="Bar" />
+        </ui:VisualElement>
+        <ui:VisualElement name="MP" class="Resource-Display MP">
+            <ui:VisualElement name="Bar" class="Bar" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
