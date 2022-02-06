@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 [DisallowMultipleComponent]
 public class GameManager : MonoBehaviour
@@ -134,6 +135,14 @@ public class GameManager : MonoBehaviour
         int targetIndex = Math.Abs(1 - requestor.index); // This only works for 2 players
         return Players[targetIndex].Driver.transform;
     }
+    public static IEnumerator ExecuteWithDelay(UnityAction action, float delayInSeconds)
+    {
+        yield return new WaitForSeconds(delayInSeconds);
+        Debug.Log("invoking");
+        action.Invoke();
+        yield return null;
+    }
+
     public static void Log(object msg) => Debug.Log(msg);
 
     private void OnDrawGizmos()

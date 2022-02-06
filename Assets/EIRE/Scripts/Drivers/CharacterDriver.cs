@@ -42,12 +42,11 @@ public class CharacterDriver : Driver<Player>
         pInput.currentActionMap = pInput.actions.actionMaps[0];
         var move = pInput.currentActionMap.FindAction(PlayerActions.Move.ToString());
         var a = pInput.currentActionMap.FindAction(PlayerActions.ButtonA.ToString());
-        //var test = pInput.currentActionMap.FindAction("Tester");
+        var dash = pInput.currentActionMap.FindAction(PlayerActions.Dash.ToString());
 
         AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
+        AssignAction(dash, onPerformed: ctx => Dash());
         AssignSpawnAction(a, charData.AttackProperties[0]);
-        //if (context.index == 0)
-        //    AssignSpawnAction(test, charData.AttackProperties[0]);
 
         GameManager.SetData<InputData>(context, inputs);
 
@@ -55,13 +54,17 @@ public class CharacterDriver : Driver<Player>
     }
     protected override void FixedUpdate()
     {
-        charData.Speed = Vector3.ClampMagnitude(rigid.velocity + charData.Direction, charData.MaxSpeed);
-        //transform.position += (charData.Speed * charData.BaseSpeed * Constants.Speed.Coefficient);
+        charData.Speed = Vector3.ClampMagnitude(rigid.velocity + charData.Direction, charData.MaxSpeed) * charData.DashMult;
         charData.Speed *= 0.95f;
         rigid.velocity = charData.Speed;
     }
 
     public void Move(Vector3 dir) => charData.Direction = dir;
+    public void Dash()
+    {
+        charData.DashMult = 3;
+        StartCoroutine(GameManager.ExecuteWithDelay(() => charData.DashMult = 1, 0.2f));
+    }
 
     private void AssignAction(InputAction action, Action<InputAction.CallbackContext> onStarted = null,
                                                     Action<InputAction.CallbackContext> onPerformed = null,

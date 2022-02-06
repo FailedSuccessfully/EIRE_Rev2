@@ -23,6 +23,7 @@ public class CharacterManager : GameSystem
             Barrier = new Resource() { Max = stats.Barrier, Current = stats.Barrier, Rate = stats.BarrierRegen, Regen = isRegen(stats.BarrierRegen) },
             BaseSpeed = stats.BaseSpeed,
             MaxSpeed = stats.MaxSpeed,
+            DashMult = 1,
             Direction = Vector3.zero,
             Speed = Vector3.zero,
             AttackProperties = new AttackProps[] { stats.propsA,
@@ -40,6 +41,7 @@ public class CharacterManager : GameSystem
             MaxSpeed = stats.MaxSpeed,
             Direction = Vector3.zero,
             Speed = Vector3.zero,
+            DashMult = 1,
             AttackProperties = new AttackProps[] { stats.propsA,
                                                     stats.propsB,
                                                     stats.propsC }
