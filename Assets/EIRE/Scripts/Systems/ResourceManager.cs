@@ -47,7 +47,7 @@ public class ResourceManager : GameSystem
         return rs;
     }
 
-    public static void LoseResource(CharacterData.PlayerResource resource, Player player, float amount)
+    public static void LoseResource(PlayerResource resource, Player player, float amount)
     {
         var d = GameManager.GetPlayerData<ResourceData>(player);
         int index = (int)resource;
@@ -69,7 +69,7 @@ public class ResourceManager : GameSystem
         }
     }
 
-    private void BlockRegenForTime(CharacterData.PlayerResource resource, Player player, float time)
+    private void BlockRegenForTime(PlayerResource resource, Player player, float time)
     {
         var d = GameManager.GetPlayerData<ResourceData>(player);
         int index = (int)resource;

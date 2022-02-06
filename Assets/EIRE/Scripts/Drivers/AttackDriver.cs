@@ -45,7 +45,7 @@ public class AttackDriver : Driver<AttackProps>
     {
         if (other.gameObject.TryGetComponent<CharacterDriver>(out CharacterDriver driver))
         {
-            ResourceManager.LoseResource(CharacterData.PlayerResource.Health, driver.MountContext, MountContext.damage);
+            ResourceManager.LoseResource(PlayerResource.Health, driver.MountContext, MountContext.damage);
             other.attachedRigidbody.AddForceAtPosition(transform.right * MountContext.pushback, (other.transform.position - transform.position), ForceMode.Impulse);
 
             BattleManager.RequestRelease(this);

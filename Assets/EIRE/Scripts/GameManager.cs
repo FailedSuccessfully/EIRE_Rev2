@@ -50,6 +50,9 @@ public class GameManager : MonoBehaviour
         ResourceManager rm = new ResourceManager();
         RegisterSystem(rm);
         rm.InitPlayers();
+        DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
+        RegisterSystem(dc);
+        dc.InitPlayers();
         var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
         p1.AcceptDriver(d1);
         var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
@@ -61,6 +64,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _systems[4].onUpdate();
     }
 
     void FixedUpdate()

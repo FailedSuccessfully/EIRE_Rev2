@@ -2,7 +2,7 @@
     <ui:Template name="Player" src="Player.uxml" />
     <Style src="Stylesheets/Top.uss" />
     <ui:VisualElement name="Top" class="Top" style="height: 30%;">
-        <ui:Instance template="Player" name="Player" class="Top-Player Top-P1" />
-        <ui:Instance template="Player" name="Player" class="Top-Player Top-P2" />
+        <ui:Instance template="Player" name="P1" class="Top-Player Top-P1" />
+        <ui:Instance template="Player" name="P2" class="Top-Player Top-P2" />
     </ui:VisualElement>
 </ui:UXML>
