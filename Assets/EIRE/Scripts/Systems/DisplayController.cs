@@ -40,7 +40,6 @@ public class DisplayController : GameSystem
 
             float HPval = rd.RoundResources[(int)PlayerResource.Health].Current / rd.RoundResources[(int)PlayerResource.Health].Max;
             float MPval = rd.RoundResources[(int)PlayerResource.Mana].Current / rd.RoundResources[(int)PlayerResource.Mana].Max;
-
             dd.DisplayDictionary[PlayerResource.Health].Q(className: "Bar").style.width = Length.Percent(HPval * 100);
             dd.DisplayDictionary[PlayerResource.Mana].Q(className: "Bar").style.width = Length.Percent(MPval * 100);
         }

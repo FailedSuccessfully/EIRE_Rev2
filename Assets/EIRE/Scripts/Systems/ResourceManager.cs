@@ -53,6 +53,8 @@ public class ResourceManager : GameSystem
         GameManager.SetData<ResourceData>(player, d);
         if (resource == PlayerResource.Health) // temporary measures
             EventsManager.CheckEvent(GameEvent.HPZero, d.RoundResources[index].Current);
+        if (resource == PlayerResource.Mana) //temporrary
+            BlockRegenForTime(resource, player, 0.3f);
     }
 
     private void RegenResources(Resource[] resources)
@@ -63,13 +65,14 @@ public class ResourceManager : GameSystem
             {
                 resources[i].Regen = resources[i].BlockTimer <= 0 ? true : false;
                 resources[i].Current += resources[i].Regen && resources[i].Current < resources[i].Max ? resources[i].Rate * Time.fixedDeltaTime : 0f; //this overflows max, need to clamp it to size
-                resources[i].BlockTimer -= !resources[i].Regen && resources[0].BlockTimer > 0 ? Time.fixedDeltaTime : 0f;
+                resources[i].BlockTimer -= !resources[i].Regen && resources[0].BlockTimer <= 0 ? Time.fixedDeltaTime : 0f;
             }
+            Debug.Log($"Resource: {Enum.GetNames(typeof(PlayerResource))[i]} Timer: {resources[i].BlockTimer}");
 
         }
     }
 
-    private void BlockRegenForTime(PlayerResource resource, Player player, float time)
+    private static void BlockRegenForTime(PlayerResource resource, Player player, float time)
     {
         var d = GameManager.GetPlayerData<ResourceData>(player);
         int index = (int)resource;

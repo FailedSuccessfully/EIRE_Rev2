@@ -31,6 +31,7 @@ public class SpawnImmediate : ISpawnStrategy
         {
             var a = BattleManager.RequestAttack(props, playerIndex);
             a?.Show();
+            ResourceManager.LoseResource(PlayerResource.Mana, GameManager.Players[playerIndex], props.cost);
         };
     }
 }

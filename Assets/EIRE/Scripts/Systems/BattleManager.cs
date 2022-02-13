@@ -59,7 +59,7 @@ public class BattleManager : GameSystem
             driver.transform.position = MoveStrategy.MoveTable[driver.MountContext.moveStrat].Move(driver);
             if (driver.isTTL) RequestRelease(driver as Driver<AttackProps>);
         }
-        Debug.Log(phaseTimer - Time.fixedTime);
+        //Debug.Log(phaseTimer - Time.fixedTime);
         if (EventsManager.CheckEvent(GameEvent.TimerZero, phaseTimer - Time.fixedTime))
             Debug.Log(Phase.GetType().ToString());
     }
