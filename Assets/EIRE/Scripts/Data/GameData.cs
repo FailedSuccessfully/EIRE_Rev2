@@ -25,6 +25,7 @@ public class CharacterData : GameData
 public class BattleData : GameData
 {
     public int layer;
+    public int wins;
 }
 
 public class ResourceData : GameData

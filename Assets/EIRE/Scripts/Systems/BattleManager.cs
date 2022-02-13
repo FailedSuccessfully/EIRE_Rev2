@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class BattleManager : GameSystem
 {
+    static float phaseTimer;
     static float Radius = 0;
     static float bounceOffset = 0.5f;
     public float StageRadius => Radius;
     static Transform Stage;
+    static BattlePhase Phase;
 
     public BattleManager(Transform stage, float radius)
     {
         DataType = typeof(BattleData);
         Stage = stage;
         Radius = radius;
+        Phase = new Wait();
+        Phase.SetPhase();
+        phaseTimer = Time.fixedTime + Phase.Time;
+        EventsManager.RegisterToEvent(GameEvent.TimerZero, () => { Phase.EndPhase(); Phase = Phase.MovePhase(); phaseTimer = Time.fixedTime + Phase.Time; });
     }
 
     public void InitPlayers()
@@ -22,11 +28,13 @@ public class BattleManager : GameSystem
         BattleData P1, P2;
         P1 = new BattleData()
         {
-            layer = LayerMask.NameToLayer("P1")
+            layer = LayerMask.NameToLayer("P1"),
+            wins = 0
         };
         P2 = new BattleData()
         {
-            layer = LayerMask.NameToLayer("P2")
+            layer = LayerMask.NameToLayer("P2"),
+            wins = 0
         };
         GameManager.CreateData<BattleData>(GameManager.Players[0], this);
         GameManager.SetData<BattleData>(GameManager.Players[0], P1);
@@ -40,12 +48,9 @@ public class BattleManager : GameSystem
         {
             if (!InsideStageBoundaries(driver.gameObject))
             {
-                //Debug.Log(Vector3.Distance(driver.transform.position, Stage.position));
                 CharacterData d = GameManager.GetPlayerData<CharacterData>(driver.MountContext);
                 driver.AcceptBounce(BounceIn(driver.transform, d.Speed));
                 GameManager.SetData<CharacterData>(driver.MountContext, d);
-
-
             }
         }
 
@@ -54,6 +59,9 @@ public class BattleManager : GameSystem
             driver.transform.position = MoveStrategy.MoveTable[driver.MountContext.moveStrat].Move(driver);
             if (driver.isTTL) RequestRelease(driver as Driver<AttackProps>);
         }
+        Debug.Log(phaseTimer - Time.fixedTime);
+        if (EventsManager.CheckEvent(GameEvent.TimerZero, phaseTimer - Time.fixedTime))
+            Debug.Log(Phase.GetType().ToString());
     }
 
     public static bool InsideStageBoundaries(GameObject toCheck, Vector3 stagePosition) => Vector3.Distance(toCheck.transform.position, stagePosition) <= Radius - bounceOffset;

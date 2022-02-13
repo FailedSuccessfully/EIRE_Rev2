@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
         var p2 = new Player();
         RegisterPlayer(p1);
         RegisterPlayer(p2);
+        EventsManager em = new EventsManager();
+        RegisterSystem(em);
         InputController ic = new InputController();
         RegisterSystem(ic);
         ic.InitPlayers();
@@ -70,8 +72,8 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        _systems[2].OnFixedUpdate();
         _systems[3].OnFixedUpdate();
+        _systems[4].OnFixedUpdate();
     }
 
     private static int SystemIndex(GameSystem s) => Array.IndexOf(Instance._systems, s);
@@ -124,6 +126,16 @@ public class GameManager : MonoBehaviour
         if (s != null)
             return (Instance._playerData[p][SystemIndex(s)] as T);
         return null;
+    }
+    internal static T[] GetSystemData<T>() where T : GameData
+    {
+        List<T> list = new List<T>();
+        int sysIndex = SystemIndex(Instance._systems.First(sys => sys.DataType == typeof(T)));
+        foreach (Player p in Players)
+        {
+            list.Add(GetPlayerData<T>(p));
+        }
+        return list.ToArray();
     }
 
     internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Request<U, T>(false);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307bfcf36266262448effb52b2f4d069, type: 3}
   m_Name: DefaultProjectile
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 25
   pushback: 10
   cost: 20
   ttl: 2
@@ -23,4 +23,5 @@ MonoBehaviour:
   sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   moveStrat: 1
   spawnStrat: 0
+  targetStrat: 0
   speed: 1

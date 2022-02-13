@@ -11,15 +11,13 @@ public class ResourceManager : GameSystem
 
     public override void OnFixedUpdate()
     {
-        string toLog = "";
         foreach (Player p in GameManager.Players)
         {
             var d = GameManager.GetPlayerData<ResourceData>(p);
             RegenResources(d.RoundResources);
             GameManager.SetData<ResourceData>(p, d);
-            toLog += $"Player {p.index + 1} HP: {d.RoundResources[0].Current}" + Environment.NewLine;
+
         }
-        Debug.Log(toLog);
     }
 
     public void InitPlayers()
@@ -53,6 +51,8 @@ public class ResourceManager : GameSystem
         int index = (int)resource;
         d.RoundResources[index].Current -= amount;
         GameManager.SetData<ResourceData>(player, d);
+        if (resource == PlayerResource.Health) // temporary measures
+            EventsManager.CheckEvent(GameEvent.HPZero, d.RoundResources[index].Current);
     }
 
     private void RegenResources(Resource[] resources)
