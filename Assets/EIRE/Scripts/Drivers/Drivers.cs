@@ -16,8 +16,12 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
     public T MountContext => context;
     public delegate void Hook();
     internal Hook OnUpdate, OnFixedUpdate, OnEnableHook, OnDisableHook;
+    protected List<SubDriver> subDrivers;
 
-
+    protected virtual void Awake()
+    {
+        subDrivers = new List<SubDriver>();
+    }
     private void Start()
     {
     }
@@ -47,6 +51,14 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
     public virtual void Unmount()
     {
         enabled = false;
+    }
+
+    protected U AddSubDriver<U>() where U: SubDriver{
+        U sub = new GameObject($"SubDriver ~ {typeof(U).ToString()}").AddComponent<U>();
+        
+        sub.SetContext(gameObject);
+        subDrivers.Add(sub);
+        return sub;
     }
 
 }

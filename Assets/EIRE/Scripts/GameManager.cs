@@ -150,7 +150,6 @@ public class GameManager : MonoBehaviour
     public static IEnumerator ExecuteWithDelay(UnityAction action, float delayInSeconds)
     {
         yield return new WaitForSeconds(delayInSeconds);
-        Debug.Log("invoking");
         action.Invoke();
         yield return null;
     }

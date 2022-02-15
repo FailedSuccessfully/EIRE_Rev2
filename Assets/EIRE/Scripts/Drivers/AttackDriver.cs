@@ -15,13 +15,13 @@ public class AttackDriver : Driver<AttackProps>
         timer = ctx.ttl;
         return base.Mount(ctx);
     }
-    void Awake()
+    protected override void Awake()
     {
         spr = gameObject.AddComponent<SpriteRenderer>();
         hitSphere = gameObject.AddComponent<SphereCollider>();
         hitSphere.isTrigger = true;
         hitSphere.radius = 1f / context.scale;
-
+        base.Awake();
     }
     protected override void FixedUpdate()
     {
@@ -43,7 +43,13 @@ public class AttackDriver : Driver<AttackProps>
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<CharacterDriver>(out CharacterDriver driver))
+        Debug.Log(other.name);
+        if (other.gameObject.TryGetComponent<Shield>(out Shield shield))
+        {
+            ResourceManager.LoseResource(PlayerResource.Barrier, shield.MountContext, MountContext.damage * 0.75f);
+            BattleManager.RequestRelease(this);
+        }
+        else if (other.gameObject.TryGetComponent<CharacterDriver>(out CharacterDriver driver))
         {
             ResourceManager.LoseResource(PlayerResource.Health, driver.MountContext, MountContext.damage);
             other.attachedRigidbody.AddForceAtPosition(transform.right * MountContext.pushback, (other.transform.position - transform.position), ForceMode.Impulse);

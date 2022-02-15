@@ -18,7 +18,7 @@ public class CharacterDriver : Driver<Player>
     Transform target;
     public Transform Target => target;
 
-    private void Awake()
+    protected override void Awake()
     {
         spr = gameObject.AddComponent<SpriteRenderer>();
         spr.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
@@ -31,6 +31,8 @@ public class CharacterDriver : Driver<Player>
         pInput.actions = ScriptableObject.CreateInstance<InputActionAsset>();
         pInput.notificationBehavior = PlayerNotifications.InvokeUnityEvents;
         this.enabled = false;
+
+        base.Awake();
     }
 
     void Start()
@@ -50,6 +52,10 @@ public class CharacterDriver : Driver<Player>
 
         GameManager.SetData<InputData>(context, inputs);
 
+        var shield = AddSubDriver<Shield>();
+        var block = pInput.currentActionMap.FindAction(PlayerActions.Block.ToString());
+        AssignAction(block, null, ctx => Block(shield.gameObject, true), ctx => Block(shield.gameObject, false));
+
         target = GameManager.RequestTarget(context);
     }
     protected override void FixedUpdate()
@@ -64,6 +70,13 @@ public class CharacterDriver : Driver<Player>
     {
         charData.DashMult = 3;
         StartCoroutine(GameManager.ExecuteWithDelay(() => charData.DashMult = 1, 0.2f));
+    }
+
+    public void Block(GameObject shield, bool active){
+        var d = GameManager.GetPlayerData<ResourceData>(MountContext);
+        d.RoundResources[2].RegenLock = !active;
+        GameManager.SetData<ResourceData>(MountContext, d);
+        shield.SetActive(active);
     }
 
     private void AssignAction(InputAction action, Action<InputAction.CallbackContext> onStarted = null,
@@ -85,7 +98,6 @@ public class CharacterDriver : Driver<Player>
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
     }
 
     public void AcceptBounce(Vector3 bounce)

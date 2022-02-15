@@ -63,11 +63,10 @@ public class ResourceManager : GameSystem
         {
             if (resources[i].Rate != 0)
             {
-                resources[i].Regen = resources[i].BlockTimer <= 0 ? true : false;
-                resources[i].Current += resources[i].Regen && resources[i].Current < resources[i].Max ? resources[i].Rate * Time.fixedDeltaTime : 0f; //this overflows max, need to clamp it to size
-                resources[i].BlockTimer -= !resources[i].Regen && resources[0].BlockTimer <= 0 ? Time.fixedDeltaTime : 0f;
+                resources[i].TimerLock = resources[i].BlockTimer <= 0 ? true : false;
+                resources[i].Current += resources[i].IsRegen() && resources[i].Current < resources[i].Max ? resources[i].Rate * Time.fixedDeltaTime : 0f; //this overflows max, need to clamp it to size
+                resources[i].BlockTimer -= !resources[i].TimerLock && resources[i].BlockTimer >= 0 ? Time.fixedDeltaTime : 0f;
             }
-            Debug.Log($"Resource: {Enum.GetNames(typeof(PlayerResource))[i]} Timer: {resources[i].BlockTimer}");
 
         }
     }
@@ -77,7 +76,7 @@ public class ResourceManager : GameSystem
         var d = GameManager.GetPlayerData<ResourceData>(player);
         int index = (int)resource;
         d.RoundResources[index].BlockTimer = time;
-        d.RoundResources[index].Regen = false;
+        d.RoundResources[index].TimerLock = false;
         GameManager.SetData<ResourceData>(player, d);
     }
 
