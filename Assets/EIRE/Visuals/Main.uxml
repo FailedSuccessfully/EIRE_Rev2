@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="Player" />
+    <ui:Template name="Player" src="Player.uxml" />
     <Style src="Stylesheets/Top.uss" />
     <ui:VisualElement name="Top" class="Top" style="height: 30%;">
-        <ui:Instance template="Player" name="P1" class="Top-Player Top-P1" />
+        <ui:Instance template="Player" name="P1" class="Top-P1 Top-Player" />
         <ui:Label text="99" display-tooltip-when-elided="true" style="-unity-font: url(&apos;/Assets/EIRE/Visuals/Fonts/PressStart2P-Regular.ttf&apos;); -unity-font-definition: url(&apos;/Assets/EIRE/Visuals/Fonts/PressStart2P-Regular SDF.asset&apos;);" />
         <ui:Instance template="Player" name="P2" class="Top-Player Top-P2" />
     </ui:VisualElement>
