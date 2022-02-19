@@ -16,13 +16,14 @@
 }
 
 .Top-P1 {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: row;
     margin-right: 5px;
 }
 
 .Top-P2 {
     margin-left: 5px;
+    flex-direction: row-reverse;
 }
 
 .Top-P2 > .Player > .Resource-Display {

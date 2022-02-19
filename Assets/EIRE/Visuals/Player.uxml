@@ -7,5 +7,10 @@
         <ui:VisualElement name="MP" class="Resource-Display MP">
             <ui:VisualElement name="Bar" class="Bar" />
         </ui:VisualElement>
+        <ui:VisualElement name="Wins" class="Resource-Display Wins">
+            <ui:VisualElement name="Marker" class="Marker" />
+            <ui:VisualElement name="Marker" class="Marker" />
+        </ui:VisualElement>
+        <ui:VisualElement class="Resource-Display" />
     </ui:VisualElement>
 </ui:UXML>
