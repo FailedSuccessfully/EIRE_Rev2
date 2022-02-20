@@ -6,7 +6,7 @@ using UnityEngine;
 public class DisplayController : GameSystem
 {
     VisualElement Root;
-    public DisplayController(UnityEngine.UIElements.UIDocument mainDoc)
+    public DisplayController(UIDocument mainDoc)
     {
         Root = mainDoc.rootVisualElement;
         DataType = typeof(DisplayData);
