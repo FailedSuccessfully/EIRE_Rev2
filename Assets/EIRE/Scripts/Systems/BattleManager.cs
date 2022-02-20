@@ -10,9 +10,11 @@ public class BattleManager : GameSystem
     static float bounceOffset = 0.5f;
     public float StageRadius => Radius;
     static Transform Stage;
-    CharacterDriver Player1, Player2;
+    static CharacterDriver Player1, Player2;
     static BattlePhase Phase;
-    Camera cam => Camera.main;
+    static Camera cam => Camera.main;
+    static Vector3 velocity, target;
+    static bool isFlip => Player1.transform.position.x - Player2.transform.position.x <= 0;
 
     public BattleManager(Transform stage, float radius)
     {
@@ -46,8 +48,15 @@ public class BattleManager : GameSystem
         Player2 = GameManager.GetDriversOfType<Player>()[1] as CharacterDriver;
     }
 
+    public override void onUpdate()
+    {
+        base.onUpdate();
+        MaintainCamera();
+    }
+
     public override void OnFixedUpdate()
     {
+        CalculateCamera();
         foreach (CharacterDriver driver in GameManager.GetDriversOfType<Player>())
         {
             if (!InsideStageBoundaries(driver.gameObject))
@@ -58,7 +67,6 @@ public class BattleManager : GameSystem
             }
         }
 
-        bool isFlip = Player1.transform.position.x - Player2.transform.position.x <= 0;
         Player1.FlipX(isFlip);
         Player2.FlipX(!isFlip);
         foreach (AttackDriver driver in GameManager.GetDriversOfType<AttackProps>().Where(driver => driver.enabled))
@@ -97,4 +105,16 @@ public class BattleManager : GameSystem
         return driver;
     }
     public static void RequestRelease(Driver<AttackProps> driver) => GameManager.UnmountDriver(driver);
+    static void CalculateCamera(){
+        Vector3 midPlayers = Vector3.Lerp(Player1.transform.position, Player2.transform.position, 0.5f);
+        float distance = Vector3.Distance(Player1.transform.position, Player2.transform.position);
+        Debug.Log($"mid: {midPlayers} distance: {distance}");
+        Vector3 LerpX = Vector3.right * Mathf.Lerp(-20, 20, midPlayers.x / 40 + 0.5f);
+        Vector3 LerpY = Vector3.up * Mathf.Lerp(-20, 20, midPlayers.y / 40 + 0.5f);
+        Vector3 LerpZ = Vector3.forward * Mathf.Lerp(-40, -120, distance / 80);
+        target = LerpX +LerpY +LerpZ;
+    }
+    static void MaintainCamera(){
+        cam.transform.localPosition = Vector3.SmoothDamp(cam.transform.localPosition, target, ref velocity, 0.1f);
+    }
 }

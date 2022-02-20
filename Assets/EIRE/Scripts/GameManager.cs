@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _systems[3].onUpdate();
         _systems[5].onUpdate();
     }
 
