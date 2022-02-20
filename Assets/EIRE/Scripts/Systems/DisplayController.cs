@@ -1,12 +1,12 @@
+using UnityEngine.UIElements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class DisplayController : GameSystem
 {
     VisualElement Root;
-    public DisplayController(UIDocument mainDoc)
+    public DisplayController(UnityEngine.UIElements.UIDocument mainDoc)
     {
         Root = mainDoc.rootVisualElement;
         DataType = typeof(DisplayData);

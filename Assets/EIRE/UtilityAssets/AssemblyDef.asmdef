@@ -1,0 +1,22 @@
+{
+    "name": "AssemblyDef",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.UIElementsModule",
+        "UnityEditor.UIBuilderModule",
+        "UnityEngine.UIElementsInputSystemModule",
+        "UnityEditor.UIElementsModule",
+        "UnityEditor.UIElementsInputSystemModule",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
