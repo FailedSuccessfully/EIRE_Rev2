@@ -18,6 +18,7 @@ public class CharacterManager : GameSystem
         P1 = new CharacterData()
         {
             playerIndex = 0,
+            Puppet = stats.puppet,
             Health = new Resource() { Max = stats.Health, Current = stats.Health, Rate = stats.HealthRegen, RegenLock = isRegen(stats.HealthRegen), TimerLock = true },
             Mana = new Resource() { Max = stats.Mana, Current = stats.Mana, Rate = stats.ManaRegen, RegenLock = isRegen(stats.ManaRegen), TimerLock = true },
             Barrier = new Resource() { Max = stats.Barrier, Current = stats.Barrier, Rate = stats.BarrierRegen, RegenLock = isRegen(stats.BarrierRegen), TimerLock = true },
@@ -34,6 +35,7 @@ public class CharacterManager : GameSystem
         P2 = new CharacterData()
         {
             playerIndex = 1,
+            Puppet = stats.puppet,
             Health = new Resource() { Max = stats.Health, Current = stats.Health, Rate = stats.HealthRegen, RegenLock = isRegen(stats.HealthRegen), TimerLock = true },
             Mana = new Resource() { Max = stats.Mana, Current = stats.Mana, Rate = stats.ManaRegen, RegenLock = isRegen(stats.ManaRegen), TimerLock = true },
             Barrier = new Resource() { Max = stats.Barrier, Current = stats.Barrier, Rate = stats.BarrierRegen, RegenLock = isRegen(stats.BarrierRegen), TimerLock = true },

@@ -1,19 +1,9 @@
-using System.Collections.ObjectModel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class SubDriver : MonoBehaviour
+public class Shield : SubDriver
 {
-    public virtual void SetContext(GameObject parentDriver)
-    {
-        gameObject.layer = parentDriver.layer;
-        transform.parent = parentDriver.transform;
-    }
-}
 
-public class Shield : SubDriver{
-  
     CharacterDriver mainDriver;
     public Player MountContext => mainDriver.MountContext;
     SphereCollider col;
@@ -43,7 +33,8 @@ public class Shield : SubDriver{
 
     public override void SetContext(GameObject parentDriver)
     {
-        if (!parentDriver.TryGetComponent<CharacterDriver>(out CharacterDriver cd)){
+        if (!parentDriver.TryGetComponent<CharacterDriver>(out CharacterDriver cd))
+        {
             Destroy(this);
         }
         mainDriver = cd;

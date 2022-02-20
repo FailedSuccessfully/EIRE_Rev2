@@ -10,7 +10,9 @@ public class BattleManager : GameSystem
     static float bounceOffset = 0.5f;
     public float StageRadius => Radius;
     static Transform Stage;
+    CharacterDriver Player1, Player2;
     static BattlePhase Phase;
+    Camera cam => Camera.main;
 
     public BattleManager(Transform stage, float radius)
     {
@@ -38,8 +40,10 @@ public class BattleManager : GameSystem
         };
         GameManager.CreateData<BattleData>(GameManager.Players[0], this);
         GameManager.SetData<BattleData>(GameManager.Players[0], P1);
+        Player1 = GameManager.GetDriversOfType<Player>()[0] as CharacterDriver;
         GameManager.CreateData<BattleData>(GameManager.Players[1], this);
         GameManager.SetData<BattleData>(GameManager.Players[1], P2);
+        Player2 = GameManager.GetDriversOfType<Player>()[1] as CharacterDriver;
     }
 
     public override void OnFixedUpdate()
@@ -54,12 +58,14 @@ public class BattleManager : GameSystem
             }
         }
 
+        bool isFlip = Player1.transform.position.x - Player2.transform.position.x <= 0;
+        Player1.FlipX(isFlip);
+        Player2.FlipX(!isFlip);
         foreach (AttackDriver driver in GameManager.GetDriversOfType<AttackProps>().Where(driver => driver.enabled))
         {
             driver.transform.position = MoveStrategy.MoveTable[driver.MountContext.moveStrat].Move(driver);
             if (driver.isTTL) RequestRelease(driver as Driver<AttackProps>);
         }
-        //Debug.Log(phaseTimer - Time.fixedTime);
         if (EventsManager.CheckEvent(GameEvent.TimerZero, phaseTimer - Time.fixedTime))
             Debug.Log(Phase.GetType().ToString());
     }

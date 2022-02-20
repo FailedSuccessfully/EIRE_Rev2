@@ -10,7 +10,6 @@ public class CharacterDriver : Driver<Player>
 {
     private GameData[] Data => GameManager.GetPlayerData(context);
     private CharacterData charData => Data.OfType<CharacterData>().First(); //(data => data.GetType() == typeof(CharacterData))
-    SpriteRenderer spr;
     SphereCollider hurtSphere;
     Rigidbody rigid;
     PlayerInput pInput;
@@ -20,8 +19,6 @@ public class CharacterDriver : Driver<Player>
 
     protected override void Awake()
     {
-        spr = gameObject.AddComponent<SpriteRenderer>();
-        spr.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
         hurtSphere = gameObject.AddComponent<SphereCollider>();
         hurtSphere.radius = transform.localScale.magnitude * 0.1f;
         rigid = gameObject.AddComponent<Rigidbody>();
@@ -42,6 +39,7 @@ public class CharacterDriver : Driver<Player>
         var inputs = Data.OfType<InputData>().First();
         pInput.actions.AddActionMap(inputs.Actions.Clone());
         pInput.currentActionMap = pInput.actions.actionMaps[0];
+        AddSubDriver<Puppet>();
         var move = pInput.currentActionMap.FindAction(PlayerActions.Move.ToString());
         var a = pInput.currentActionMap.FindAction(PlayerActions.ButtonA.ToString());
         var dash = pInput.currentActionMap.FindAction(PlayerActions.Dash.ToString());
@@ -72,7 +70,8 @@ public class CharacterDriver : Driver<Player>
         StartCoroutine(GameManager.ExecuteWithDelay(() => charData.DashMult = 1, 0.2f));
     }
 
-    public void Block(GameObject shield, bool active){
+    public void Block(GameObject shield, bool active)
+    {
         var d = GameManager.GetPlayerData<ResourceData>(MountContext);
         d.RoundResources[2].RegenLock = !active;
         GameManager.SetData<ResourceData>(MountContext, d);
@@ -104,4 +103,6 @@ public class CharacterDriver : Driver<Player>
     {
         rigid.velocity = bounce;
     }
+
+    public void FlipX(bool isFlip) => subDrivers.OfType<Puppet>().First().FlipX(isFlip);
 }

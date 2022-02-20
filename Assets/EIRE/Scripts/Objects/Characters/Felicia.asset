@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd83e8e30242c534ea41a5a633006a8f, type: 3}
-  m_Name: DefaultCharacterStats
+  m_Name: Felicia
   m_EditorClassIdentifier: 
-  Health: 150
+  Health: 0
   HealthRegen: 0
-  Mana: 100
-  ManaRegen: 150
-  Barrier: 100
-  BarrierRegen: 100
-  BaseSpeed: 1.5
-  MaxSpeed: 10
-  puppet: {fileID: -3686762603626520583, guid: 9f74cb849fa0cdf47ba53ee553c840db, type: 3}
-  propsA: {fileID: 11400000, guid: b0bd9be5bf2a57240847ce4f4416eb49, type: 2}
+  Mana: 0
+  ManaRegen: 0
+  Barrier: 0
+  BarrierRegen: 0
+  BaseSpeed: 0
+  MaxSpeed: 0
+  propsA: {fileID: 0}
   propsB: {fileID: 0}
   propsC: {fileID: 0}

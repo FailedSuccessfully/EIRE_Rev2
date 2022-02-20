@@ -47,7 +47,11 @@ public class GameManager : MonoBehaviour
         CharacterManager cm = new CharacterManager();
         RegisterSystem(cm);
         cm.InitPlayers();
-        BattleManager bm = new BattleManager(GameWorld_temp.transform, (20 * 2) / 5f);
+        var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
+        p1.AcceptDriver(d1);
+        var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
+        p2.AcceptDriver(d2);
+        BattleManager bm = new BattleManager(GameWorld_temp.transform, (80 * 2) / 5f);
         RegisterSystem(bm);
         bm.InitPlayers();
         ResourceManager rm = new ResourceManager();
@@ -56,10 +60,6 @@ public class GameManager : MonoBehaviour
         DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
         RegisterSystem(dc);
         dc.InitPlayers();
-        var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
-        p1.AcceptDriver(d1);
-        var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
-        p2.AcceptDriver(d2);
 
         Log("Game Manager Finish 'Start'");
     }
