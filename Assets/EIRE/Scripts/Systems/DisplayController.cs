@@ -11,6 +11,14 @@ public class DisplayController : GameSystem
         Root = mainDoc.rootVisualElement;
         DataType = typeof(DisplayData);
     }
+    public void Init(){
+        Button start = Root.Q<Button>("Start");
+        start.clicked += ()=>{
+            BattleManager.StartBattle();
+            Root.Q("Menu").visible = false;
+            Root.Q("Game").visible = true;
+        };
+    }
 
     public void InitPlayers()
     {

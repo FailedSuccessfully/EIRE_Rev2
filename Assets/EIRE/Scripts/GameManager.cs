@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
         rm.InitPlayers();
         DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
         RegisterSystem(dc);
+        dc.Init();
         dc.InitPlayers();
 
         Log("Game Manager Finish 'Start'");

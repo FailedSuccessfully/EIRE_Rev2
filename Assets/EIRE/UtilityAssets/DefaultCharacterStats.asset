@@ -18,8 +18,8 @@ MonoBehaviour:
   ManaRegen: 150
   Barrier: 100
   BarrierRegen: 100
-  BaseSpeed: 1.5
-  MaxSpeed: 10
+  BaseSpeed: 5
+  MaxSpeed: 20
   puppet: {fileID: -3686762603626520583, guid: 9f74cb849fa0cdf47ba53ee553c840db, type: 3}
   propsA: {fileID: 11400000, guid: b0bd9be5bf2a57240847ce4f4416eb49, type: 2}
   propsB: {fileID: 0}

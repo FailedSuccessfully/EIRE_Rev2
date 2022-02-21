@@ -51,4 +51,7 @@ public class EventsManager : GameSystem
             Events[ev].Invoke();
         return res;
     }
+    internal static void ForceInvoke(GameEvent ev){
+        Events[ev].Invoke();
+    }
 }

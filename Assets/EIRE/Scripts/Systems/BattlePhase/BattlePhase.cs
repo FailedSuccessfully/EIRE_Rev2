@@ -27,6 +27,7 @@ public class Wait : BattlePhase
 
     public override void SetPhase()
     {
+        // player action maps disabled
         Next = new Ready();
         time = 9999f;
         base.SetPhase();
@@ -36,6 +37,10 @@ public class Ready : BattlePhase
 {
     public override void SetPhase()
     {
+        // set positions
+        // set resources
+        // movement enabled
+        // actions unenabled
         Next = new Fight();
         time = 4f;
         base.SetPhase();
@@ -46,6 +51,7 @@ public class Fight : BattlePhase
 
     public override void SetPhase()
     {
+        // actions enabled
         Next = new Round();
         time = 99f;
         base.SetPhase();
@@ -56,6 +62,7 @@ public class Round : BattlePhase
 
     public override void SetPhase()
     {
+        // player actions disabled
         EventsManager.RegisterToEvent(GameEvent.EnoughWins, () => Next = new Win());
         Next = new Ready();
         time = 5f;
@@ -73,6 +80,7 @@ public class Win : BattlePhase
 {
     public override void SetPhase()
     {
+        // init battle data
         Next = new Wait();
         time = 5f;
         base.SetPhase();
