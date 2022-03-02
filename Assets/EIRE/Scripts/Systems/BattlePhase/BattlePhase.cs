@@ -63,6 +63,7 @@ public class Round : BattlePhase
     public override void SetPhase()
     {
         // player actions disabled
+        // mark winner
         EventsManager.RegisterToEvent(GameEvent.EnoughWins, () => Next = new Win());
         Next = new Ready();
         time = 5f;

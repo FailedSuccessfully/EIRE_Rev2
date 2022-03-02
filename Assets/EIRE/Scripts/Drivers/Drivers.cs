@@ -22,9 +22,6 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
     {
         subDrivers = new List<SubDriver>();
     }
-    private void Start()
-    {
-    }
     protected virtual void Update()
     {
         OnUpdate?.Invoke();
@@ -53,9 +50,10 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
         enabled = false;
     }
 
-    protected U AddSubDriver<U>() where U: SubDriver{
+    protected U AddSubDriver<U>() where U : SubDriver
+    {
         U sub = new GameObject($"SubDriver ~ {typeof(U).ToString()}").AddComponent<U>();
-        
+
         sub.SetContext(gameObject);
         subDrivers.Add(sub);
         return sub;
@@ -93,10 +91,6 @@ public class DriverPool
             obj.name += $" ~ {typeof(T).ToString()}";
             if (!obj.TryGetComponent<T>(out T comp))
             {
-                foreach (var toRemove in obj.GetComponents<Driver<IDriveable>>())
-                {
-                    GameObject.Destroy(toRemove);
-                }
                 comp = obj.AddComponent<T>();
             }
             obj.SetActive(setActive);
@@ -106,6 +100,7 @@ public class DriverPool
     }
     public void Release<T>(Driver<T> driver) where T : IDriveable
     {
+        GameObject.Destroy(driver);
         driver.Unmount();
         driver.name = driver.name.Split(' ')[0];
         driver.gameObject.SetActive(false);

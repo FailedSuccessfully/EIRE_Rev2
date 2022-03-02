@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AttackDriver : Driver<AttackProps>
 {
-    SpriteRenderer spr;
+    GameObject effect;
     /// they wont all be sphere so this is hardcoded temporarily
     SphereCollider hitSphere;
     float timer;
@@ -15,9 +15,14 @@ public class AttackDriver : Driver<AttackProps>
         timer = ctx.ttl;
         return base.Mount(ctx);
     }
+    public override void Unmount()
+    {
+        Destroy(effect);
+        base.Unmount();
+    }
     protected override void Awake()
     {
-        spr = gameObject.AddComponent<SpriteRenderer>();
+        effect = GameObject.Instantiate(context.Effect, transform.position, Quaternion.identity, transform);
         hitSphere = gameObject.AddComponent<SphereCollider>();
         hitSphere.isTrigger = true;
         hitSphere.radius = 1f / context.scale;
@@ -31,14 +36,14 @@ public class AttackDriver : Driver<AttackProps>
 
     protected override void OnEnable()
     {
-        spr.enabled = false;
+        effect.SetActive(false);
         hitSphere.enabled = false;
         base.OnEnable();
     }
 
     protected override void OnDisable()
     {
-        spr.enabled = false;
+        effect.SetActive(false);
         hitSphere.enabled = false;
     }
     void OnTriggerEnter(Collider other)
@@ -62,9 +67,7 @@ public class AttackDriver : Driver<AttackProps>
     {
         gameObject.SetActive(true);
         transform.localScale = Vector3.one * context.scale;
-        if (context.sprite)
-            spr.sprite = context.sprite;
-        spr.enabled = true;
+        effect.SetActive(true);
         hitSphere.enabled = true;
     }
 }

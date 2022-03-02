@@ -47,11 +47,11 @@
 .Marker {
     width: 10%;
     height: 20%;
-    background-color: rgba(0, 0, 0, 255);
-    border-left-color: rgba(230, 241, 117, 255);
-    border-right-color: rgba(230, 241, 117, 255);
-    border-top-color: rgba(230, 241, 117, 255);
-    border-bottom-color: rgba(230, 241, 117, 255);
+    background-color: rgb(0, 0, 0);
+    border-left-color: rgb(230, 241, 117);
+    border-right-color: rgb(230, 241, 117);
+    border-top-color: rgb(230, 241, 117);
+    border-bottom-color: rgb(230, 241, 117);
     border-left-width: 2px;
     border-right-width: 2px;
     border-top-width: 2px;
@@ -62,4 +62,11 @@
     border-bottom-right-radius: 5%;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.Marker-Marked {
+    background-color: rgba(230, 241, 117, 255);
+}
+
+.Unmarked {
 }

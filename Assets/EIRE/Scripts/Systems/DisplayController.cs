@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class DisplayController : GameSystem
 {
-    VisualElement Root;
+    static VisualElement Root;
     public DisplayController(UIDocument mainDoc)
     {
         Root = mainDoc.rootVisualElement;
         DataType = typeof(DisplayData);
     }
-    public void Init(){
+    public void Init()
+    {
         Button start = Root.Q<Button>("Start");
-        start.clicked += ()=>{
+        start.clicked += () =>
+        {
             BattleManager.StartBattle();
-            Root.Q("Menu").visible = false;
-            Root.Q("Game").visible = true;
+            Root.Q("Menu").style.display = DisplayStyle.None;
+            Root.Q("Game").style.display = DisplayStyle.Flex;
         };
     }
 
@@ -24,11 +26,7 @@ public class DisplayController : GameSystem
     {
         foreach (Player p in GameManager.Players)
         {
-            VisualElement Container;
-            if (p.index == 0)
-                Container = Root.Q("P1");
-            else
-                Container = Root.Q("P2");
+            VisualElement Container = GetPlayerContainer(p);
             DisplayData d = new DisplayData();
             d.DisplayDictionary = new Dictionary<PlayerResource, VisualElement>();
             d.DisplayDictionary.Add(PlayerResource.Health, Container.Q("HP"));
@@ -51,5 +49,16 @@ public class DisplayController : GameSystem
             dd.DisplayDictionary[PlayerResource.Health].Q(className: "Bar").style.width = Length.Percent(HPval * 100);
             dd.DisplayDictionary[PlayerResource.Mana].Q(className: "Bar").style.width = Length.Percent(MPval * 100);
         }
+    }
+    public static void MarkWin(Player p)
+    {
+        VisualElement Container = GetPlayerContainer(p);
+        VisualElement marker = Container.Q("Marker", "Unmarked");
+        marker.RemoveFromClassList("Unmarked");
+        marker.AddToClassList("Marker-Marked");
+    }
+    static VisualElement GetPlayerContainer(Player p)
+    {
+        return Root.Q(p.index == 0 ? "P1" : "P2");
     }
 }

@@ -6,7 +6,7 @@ public class AttackProps : ScriptableObject, IDriveable
 {
     [SerializeField] public float damage, pushback, cost, ttl, charge, release, currentCharge;
     [SerializeField, Range(0.1f, 10f)] public float scale = 1f;
-    [SerializeReference] public Sprite sprite;
+    [SerializeReference] public GameObject Effect;
     public MoveStrategies moveStrat;
     public SpawnStrategies spawnStrat;
     public TargetStrategies targetStrat;

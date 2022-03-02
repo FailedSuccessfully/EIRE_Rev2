@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="Player" src="project://database/Assets/EIRE/Visuals/Player.uxml?fileID=9197481963319205126&amp;guid=7b9b8e327b1fcc84c8bc5e5f53f1937f&amp;type=3#Player" />
     <ui:Template name="Menu" src="project://database/Assets/EIRE/Visuals/Menu.uxml?fileID=9197481963319205126&amp;guid=d7ed55e6111a796448ae3c495c8d9ed9&amp;type=3#Menu" />
+    <ui:Template name="Player" src="project://database/Assets/EIRE/Visuals/Player.uxml?fileID=9197481963319205126&amp;guid=7b9b8e327b1fcc84c8bc5e5f53f1937f&amp;type=3#Player" />
     <Style src="project://database/Assets/EIRE/Visuals/Stylesheets/Top.uss?fileID=7433441132597879392&amp;guid=deb597c2d6737414bbd7e0507fe0850b&amp;type=3#Top" />
-    <ui:Instance template="Menu" name="Menu" style="height: 100%; display: flex;" />
-    <ui:VisualElement name="Game" style="display: none; height: 100%; width: 100%;">
+    <ui:Instance template="Menu" name="Menu" style="height: 100%; display: flex; visibility: visible;" />
+    <ui:VisualElement name="Game" style="display: none; height: 100%; width: 100%; visibility: visible;">
         <ui:VisualElement name="Top" class="Top" style="display: flex;">
             <ui:Instance template="Player" name="P1" class="Top-P1 Top-Player" />
             <ui:Label text="99" display-tooltip-when-elided="true" style="-unity-font: url(&apos;project://database/Assets/EIRE/Visuals/Fonts/PressStart2P-Regular.ttf?fileID=12800000&amp;guid=684c080955e6c444dba70e97ecfadf21&amp;type=3#PressStart2P-Regular&apos;); -unity-font-definition: url(&apos;project://database/Assets/EIRE/Visuals/Fonts/PressStart2P-Regular%20SDF.asset?fileID=11400000&amp;guid=8f6d82fe61e19224d9939a12db455315&amp;type=2#PressStart2P-Regular SDF&apos;);" />

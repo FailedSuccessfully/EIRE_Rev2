@@ -13,40 +13,42 @@ public class CharacterManager : GameSystem
 
     public void InitPlayers()
     {
+        //TODO: find a more concise way to write this
         CharacterData P1, P2;
-        var stats = Addressables.LoadAssetAsync<CharacterInfo>("CharacterData/DefaultStats").WaitForCompletion();
+        var stats1 = Addressables.LoadAssetAsync<CharacterInfo>("CharacterData/Felicia").WaitForCompletion();
+        var stats2 = Addressables.LoadAssetAsync<CharacterInfo>("CharacterData/DefaultStats").WaitForCompletion();
         P1 = new CharacterData()
         {
             playerIndex = 0,
-            Puppet = stats.puppet,
-            Health = new Resource() { Max = stats.Health, Current = stats.Health, Rate = stats.HealthRegen, RegenLock = isRegen(stats.HealthRegen), TimerLock = true },
-            Mana = new Resource() { Max = stats.Mana, Current = stats.Mana, Rate = stats.ManaRegen, RegenLock = isRegen(stats.ManaRegen), TimerLock = true },
-            Barrier = new Resource() { Max = stats.Barrier, Current = stats.Barrier, Rate = stats.BarrierRegen, RegenLock = isRegen(stats.BarrierRegen), TimerLock = true },
-            BaseSpeed = stats.BaseSpeed,
-            MaxSpeed = stats.MaxSpeed,
+            Puppet = stats1.puppet,
+            Health = new Resource() { Max = stats1.Health, Current = stats1.Health, Rate = stats1.HealthRegen, RegenLock = isRegen(stats1.HealthRegen), TimerLock = true },
+            Mana = new Resource() { Max = stats1.Mana, Current = stats1.Mana, Rate = stats1.ManaRegen, RegenLock = isRegen(stats1.ManaRegen), TimerLock = true },
+            Barrier = new Resource() { Max = stats1.Barrier, Current = stats1.Barrier, Rate = stats1.BarrierRegen, RegenLock = isRegen(stats1.BarrierRegen), TimerLock = true },
+            BaseSpeed = stats1.BaseSpeed,
+            MaxSpeed = stats1.MaxSpeed,
             DashMult = 1,
             Direction = Vector3.zero,
             Speed = Vector3.zero,
-            AttackProperties = new AttackProps[] { stats.propsA,
-                                                    stats.propsB,
-                                                    stats.propsC }
+            AttackProperties = new AttackProps[] { stats1.propsA,
+                                                    stats1.propsB,
+                                                    stats1.propsC }
 
         };
         P2 = new CharacterData()
         {
             playerIndex = 1,
-            Puppet = stats.puppet,
-            Health = new Resource() { Max = stats.Health, Current = stats.Health, Rate = stats.HealthRegen, RegenLock = isRegen(stats.HealthRegen), TimerLock = true },
-            Mana = new Resource() { Max = stats.Mana, Current = stats.Mana, Rate = stats.ManaRegen, RegenLock = isRegen(stats.ManaRegen), TimerLock = true },
-            Barrier = new Resource() { Max = stats.Barrier, Current = stats.Barrier, Rate = stats.BarrierRegen, RegenLock = isRegen(stats.BarrierRegen), TimerLock = true },
-            BaseSpeed = stats.BaseSpeed,
-            MaxSpeed = stats.MaxSpeed,
+            Puppet = stats2.puppet,
+            Health = new Resource() { Max = stats2.Health, Current = stats2.Health, Rate = stats2.HealthRegen, RegenLock = isRegen(stats2.HealthRegen), TimerLock = true },
+            Mana = new Resource() { Max = stats2.Mana, Current = stats2.Mana, Rate = stats2.ManaRegen, RegenLock = isRegen(stats2.ManaRegen), TimerLock = true },
+            Barrier = new Resource() { Max = stats2.Barrier, Current = stats2.Barrier, Rate = stats2.BarrierRegen, RegenLock = isRegen(stats2.BarrierRegen), TimerLock = true },
+            BaseSpeed = stats2.BaseSpeed,
+            MaxSpeed = stats2.MaxSpeed,
             Direction = Vector3.zero,
             Speed = Vector3.zero,
             DashMult = 1,
-            AttackProperties = new AttackProps[] { stats.propsA,
-                                                    stats.propsB,
-                                                    stats.propsC }
+            AttackProperties = new AttackProps[] { stats2.propsA,
+                                                    stats2.propsB,
+                                                    stats2.propsC }
 
         };
         GameManager.CreateData<CharacterData>(GameManager.Players[0], this);

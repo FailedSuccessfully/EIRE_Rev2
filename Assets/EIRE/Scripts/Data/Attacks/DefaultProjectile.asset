@@ -15,13 +15,13 @@ MonoBehaviour:
   damage: 25
   pushback: 10
   cost: 20
-  ttl: 2
+  ttl: 10
   charge: 0
   release: 0
   currentCharge: 0
   scale: 10
-  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Effect: {fileID: 100000, guid: 9594a61f2ed6a0044bd4c38307f610e3, type: 3}
   moveStrat: 1
   spawnStrat: 0
   targetStrat: 0
-  speed: 1
+  speed: 10

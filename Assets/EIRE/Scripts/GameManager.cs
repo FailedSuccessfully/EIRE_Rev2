@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
         RegisterSystem(dc);
         dc.Init();
         dc.InitPlayers();
-
         Log("Game Manager Finish 'Start'");
     }
 
