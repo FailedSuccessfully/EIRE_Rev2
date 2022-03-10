@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public static Driver<T>[] GetDriversOfType<T>() where T : IDriveable => driverPool.Fetch<T>();
     GameSystem[] _systems;
     Dictionary<Player, GameData[]> _playerData;
+    UnityAction onUpdate, onFixedUpdate;
 
     #region  temporary editor properties
     public GameObject GameWorld_temp;
@@ -61,36 +62,32 @@ public class GameManager : MonoBehaviour
         RegisterSystem(dc);
         dc.Init();
         dc.InitPlayers();
-        Log("Game Manager Finish 'Start'");
+        Debug.Log("Game Manager Finish 'Start'");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        _systems[3].onUpdate();
-        _systems[5].onUpdate();
-    }
+    #region Unity Callbacks
+    void Update() => onUpdate?.Invoke();
 
-    void FixedUpdate()
-    {
-        _systems[3].OnFixedUpdate();
-        _systems[4].OnFixedUpdate();
-    }
+    void FixedUpdate() => onFixedUpdate.Invoke();
 
-    private static int SystemIndex(GameSystem s) => Array.IndexOf(Instance._systems, s);
+    #endregion
 
+    #region  System Core Management
     private void RegisterSystem(GameSystem s)
     {
-        //TODO: ensure update on all players game data array
-        GameData[] temp;
+        // Add system to array
         GameSystem[] gsa = new GameSystem[_systems.Length + 1];
         _systems.CopyTo(gsa, 0);
         gsa[_systems.Length] = s;
         _systems = gsa;
 
+        // Define player data
+        GameData[] temp;
         foreach (Player p in Players)
         {
             var pd = _playerData[p];
+
+            // Validate no duplicate data types
             if (!pd.Any(d => d?.GetType() == s.DataType))
             {
                 temp = new GameData[pd.Length + 1];
@@ -98,12 +95,13 @@ public class GameManager : MonoBehaviour
                 _playerData[p] = temp;
             }
         }
+
+        // Subscribe to events
+        onUpdate += s.OnUpdate;
+        onFixedUpdate += s.OnFixedUpdate;
     }
 
-    private void RegisterPlayer(Player p)
-    {
-        _playerData.Add(p, new GameData[_systems.Length]);
-    }
+    private void RegisterPlayer(Player p) => _playerData.Add(p, new GameData[_systems.Length]);
 
     internal static GameData CreateData<T>(Player p, GameSystem s) where T : GameData
     {
@@ -120,7 +118,6 @@ public class GameManager : MonoBehaviour
             Instance._playerData[p][SystemIndex(s)] = data;
     }
 
-    internal static GameData[] GetPlayerData(Player p) => Instance._playerData[p];
     internal static T GetPlayerData<T>(Player p) where T : GameData
     {
         GameSystem s = Instance._systems.FirstOrDefault(sys => sys.DataType == typeof(T));
@@ -139,8 +136,13 @@ public class GameManager : MonoBehaviour
         return list.ToArray();
     }
 
+    #endregion
+
+    #region System Internal Utilities
+    private static int SystemIndex(GameSystem s) => Array.IndexOf(Instance._systems, s);
     internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Request<U, T>(false);
     internal static void UnmountDriver<T>(Driver<T> driver) where T : IDriveable => driverPool.Release(driver);
+    internal static GameData[] GetPlayerData(Player p) => Instance._playerData[p];
 
     public static Transform RequestTarget(Player requestor)
     {
@@ -155,12 +157,11 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    public static void Log(object msg) => Debug.Log(msg);
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         if (_systems != null && _systems.OfType<BattleManager>().Count() > 0)
             Gizmos.DrawWireSphere(GameWorld_temp.transform.position, _systems.OfType<BattleManager>().First().StageRadius);
     }
+    #endregion
 }

@@ -48,9 +48,9 @@ public class BattleManager : GameSystem
         Player2 = GameManager.GetDriversOfType<Player>()[1] as CharacterDriver;
     }
 
-    public override void onUpdate()
+    public override void OnUpdate()
     {
-        base.onUpdate();
+        base.OnUpdate();
         MaintainCamera();
     }
 
@@ -105,19 +105,23 @@ public class BattleManager : GameSystem
         return driver;
     }
     public static void RequestRelease(Driver<AttackProps> driver) => GameManager.UnmountDriver(driver);
-    static void CalculateCamera(){
+    static void CalculateCamera()
+    {
         Vector3 midPlayers = Vector3.Lerp(Player1.transform.position, Player2.transform.position, 0.5f);
         float distance = Vector3.Distance(Player1.transform.position, Player2.transform.position);
         Vector3 LerpX = Vector3.right * Mathf.Lerp(-20, 20, midPlayers.x / 40 + 0.5f);
         Vector3 LerpY = Vector3.up * Mathf.Lerp(-20, 20, midPlayers.y / 40 + 0.5f);
         Vector3 LerpZ = Vector3.forward * Mathf.Lerp(-40, -120, distance / 80);
-        target = LerpX +LerpY +LerpZ;
+        target = LerpX + LerpY + LerpZ;
     }
-    static void MaintainCamera(){
+    static void MaintainCamera()
+    {
         cam.transform.localPosition = Vector3.SmoothDamp(cam.transform.localPosition, target, ref velocity, 0.1f);
     }
-    public static void StartBattle(){
-        if (Phase is Wait){
+    public static void StartBattle()
+    {
+        if (Phase is Wait)
+        {
             EventsManager.ForceInvoke(GameEvent.TimerZero);
         }
     }

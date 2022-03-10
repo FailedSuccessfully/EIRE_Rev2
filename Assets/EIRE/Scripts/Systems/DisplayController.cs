@@ -37,7 +37,7 @@ public class DisplayController : GameSystem
         }
     }
 
-    public override void onUpdate()
+    public override void OnUpdate()
     {
         foreach (Player p in GameManager.Players)
         {

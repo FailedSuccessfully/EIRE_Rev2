@@ -7,7 +7,7 @@ public abstract class GameSystem
         DataType = typeof(GameSystem);
     }
 
-    public virtual void onUpdate() { }
+    public virtual void OnUpdate() { }
     public virtual void OnFixedUpdate() { }
 
     //?public virtual void RequestDriver() { }
