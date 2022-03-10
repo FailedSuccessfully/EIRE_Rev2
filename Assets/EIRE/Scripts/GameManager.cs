@@ -48,9 +48,9 @@ public class GameManager : MonoBehaviour
         CharacterManager cm = new CharacterManager();
         RegisterSystem(cm);
         cm.InitPlayers();
-        var d1 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
+        var d1 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
         p1.AcceptDriver(d1);
-        var d2 = driverPool.Request<CharacterDriver, Player>(true).gameObject;
+        var d2 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
         p2.AcceptDriver(d2);
         BattleManager bm = new BattleManager(GameWorld_temp.transform, (80 * 2) / 5f);
         RegisterSystem(bm);
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     #region System Internal Utilities
     private static int SystemIndex(GameSystem s) => Array.IndexOf(Instance._systems, s);
-    internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Request<U, T>(false);
+    internal static U RequestDriver<T, U>(T context) where T : IDriveable where U : Driver<T> => driverPool.Request<T, U>(false);
     internal static void UnmountDriver<T>(Driver<T> driver) where T : IDriveable => driverPool.Release(driver);
     internal static GameData[] GetPlayerData(Player p) => Instance._playerData[p];
 

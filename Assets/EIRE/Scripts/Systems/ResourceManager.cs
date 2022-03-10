@@ -49,7 +49,7 @@ public class ResourceManager : GameSystem
     {
         var d = GameManager.GetPlayerData<ResourceData>(player);
         int index = (int)resource;
-        d.RoundResources[index].Current -= amount;
+        d.RoundResources[index].Current = Mathf.Clamp(d.RoundResources[index].Current - amount, 0, d.RoundResources[index].Max);
         GameManager.SetData<ResourceData>(player, d);
         if (resource == PlayerResource.Health) // temporary measures
             EventsManager.CheckEvent(GameEvent.HPZero, d.RoundResources[index].Current);

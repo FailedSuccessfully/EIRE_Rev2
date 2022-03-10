@@ -73,7 +73,7 @@ public class CharacterDriver : Driver<Player>
     public void Block(GameObject shield, bool active)
     {
         var d = GameManager.GetPlayerData<ResourceData>(MountContext);
-        d.RoundResources[2].RegenLock = !active;
+        d.RoundResources[2].Rate *= active ? 0.05f : 20f;
         GameManager.SetData<ResourceData>(MountContext, d);
         shield.SetActive(active);
     }

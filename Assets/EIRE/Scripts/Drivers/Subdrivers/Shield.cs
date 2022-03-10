@@ -39,6 +39,6 @@ public class Shield : SubDriver
         }
         mainDriver = cd;
         base.SetContext(parentDriver);
-        scale = transform.parent.lossyScale * 10;
+        scale = transform.parent.lossyScale * 100;
     }
 }

@@ -8,7 +8,6 @@ public interface IDriveable
     public void AcceptDriver(GameObject driver);
 }
 
-
 public abstract class Driver<T> : MonoBehaviour where T : IDriveable
 {
     protected T context;
@@ -18,27 +17,13 @@ public abstract class Driver<T> : MonoBehaviour where T : IDriveable
     internal Hook OnUpdate, OnFixedUpdate, OnEnableHook, OnDisableHook;
     protected List<SubDriver> subDrivers;
 
-    protected virtual void Awake()
-    {
-        subDrivers = new List<SubDriver>();
-    }
-    protected virtual void Update()
-    {
-        OnUpdate?.Invoke();
-    }
-
-    protected virtual void FixedUpdate()
-    {
-        OnFixedUpdate?.Invoke();
-    }
-    protected virtual void OnEnable()
-    {
-        OnEnableHook?.Invoke();
-    }
-    protected virtual void OnDisable()
-    {
-        OnDisableHook?.Invoke();
-    }
+    #region Unity Callbacks
+    protected virtual void Awake() => subDrivers = new List<SubDriver>();
+    protected virtual void Update() => OnUpdate?.Invoke();
+    protected virtual void FixedUpdate() => OnFixedUpdate?.Invoke();
+    protected virtual void OnEnable() => OnEnableHook?.Invoke();
+    protected virtual void OnDisable() => OnDisableHook?.Invoke();
+    #endregion
     public virtual Driver<T> Mount(T ctx)
     {
         this.enabled = true;
@@ -67,6 +52,7 @@ public class DriverPool
     GameObject[] pool;
     GameObject poolContainer;
 
+    // Ctor
     public DriverPool(int size)
     {
         poolSize = size;
@@ -81,17 +67,16 @@ public class DriverPool
         }
     }
 
-    //TODO: Format this to be consistent with similar generic functions
-    public T Request<T, U>(bool setActive) where T : Driver<U> where U : IDriveable
+    public U Request<T, U>(bool setActive) where T : IDriveable where U : Driver<T>
     {
         GameObject obj = FetchFree();
         if (obj)
         {
             free--;
-            obj.name += $" ~ {typeof(T).ToString()}";
-            if (!obj.TryGetComponent<T>(out T comp))
+            obj.name += $" ~ {typeof(U).ToString()}";
+            if (!obj.TryGetComponent<U>(out U comp))
             {
-                comp = obj.AddComponent<T>();
+                comp = obj.AddComponent<U>();
             }
             obj.SetActive(setActive);
             return comp;
@@ -109,10 +94,7 @@ public class DriverPool
         free = pool.Count(obj => !obj.activeSelf);
     }
 
-    public Driver<T>[] Fetch<T>() where T : IDriveable
-    {
-        return poolContainer.GetComponentsInChildren<Driver<T>>();
-    }
+    public Driver<T>[] Fetch<T>() where T : IDriveable => poolContainer.GetComponentsInChildren<Driver<T>>();
     public GameObject[] FetchAll() => pool;
 
     private GameObject FetchFree() => pool.FirstOrDefault(obj => !obj.activeSelf);
