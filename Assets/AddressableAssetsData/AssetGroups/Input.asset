@@ -21,10 +21,11 @@ MonoBehaviour:
     m_Address: Input/Default
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: ebe0d84546528754f9178e06b187e4dd
-    m_Address: Input/P1Default
+  - m_GUID: c3a4869c344ee464b93c3fa730feff55
+    m_Address: Assets/Input
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Input
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: c9e1ae9bdc0fca4429ca0e7f369ee408, type: 2}
   m_SchemaSet:
