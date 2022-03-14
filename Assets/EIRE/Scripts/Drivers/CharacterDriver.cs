@@ -38,6 +38,7 @@ public class CharacterDriver : Driver<Player>
 
         var inputs = Data.OfType<InputData>().First();
         pInput.actions.AddActionMap(inputs.Actions.Clone());
+        pInput.actions.AddActionMap(inputs.Default.actionMaps[1].Clone());
         pInput.currentActionMap = pInput.actions.actionMaps[0];
         AddSubDriver<Puppet>();
         var move = pInput.currentActionMap.FindAction(PlayerActions.Move.ToString());

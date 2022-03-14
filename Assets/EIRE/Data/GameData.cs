@@ -10,6 +10,7 @@ public class GameData
 public class InputData : GameData
 {
     public UnityEngine.InputSystem.InputActionMap Actions;
+    public UnityEngine.InputSystem.InputActionAsset Default, Custom;
 }
 
 public class CharacterData : GameData
