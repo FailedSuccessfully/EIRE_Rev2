@@ -37,13 +37,16 @@ public class CharacterDriver : Driver<Player>
         gameObject.layer = Data.OfType<BattleData>().First().layer;
 
         var inputs = Data.OfType<InputData>().First();
-        pInput.actions.AddActionMap(inputs.Actions.Clone());
-        pInput.actions.AddActionMap(inputs.Default.actionMaps[1].Clone());
-        pInput.currentActionMap = pInput.actions.actionMaps[0];
+        //pInput.actions.AddActionMap(inputs.Actions.Clone());
+        pInput.actions = inputs.Default;
+        pInput.SwitchCurrentControlScheme(pInput.actions.controlSchemes[0].name, Keyboard.current);
+        Debug.Log(pInput.currentControlScheme);
+        pInput.actions.actionMaps[0].Enable();
+        pInput.actions.actionMaps[1].Enable();
         AddSubDriver<Puppet>();
-        var move = pInput.currentActionMap.FindAction(PlayerActions.Move.ToString());
-        var a = pInput.currentActionMap.FindAction(PlayerActions.ButtonA.ToString());
-        var dash = pInput.currentActionMap.FindAction(PlayerActions.Dash.ToString());
+        var move = pInput.actions.actionMaps[1].FindAction(PlayerActions.Move.ToString());
+        var a = pInput.actions.actionMaps[0].FindAction(PlayerActions.B1.ToString());
+        var dash = pInput.actions.actionMaps[1].FindAction(PlayerActions.Dash.ToString());
 
         AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
         AssignAction(dash, onPerformed: ctx => Dash());
@@ -52,7 +55,7 @@ public class CharacterDriver : Driver<Player>
         GameManager.SetData<InputData>(context, inputs);
 
         var shield = AddSubDriver<Shield>();
-        var block = pInput.currentActionMap.FindAction(PlayerActions.Block.ToString());
+        var block = pInput.actions.actionMaps[0].FindAction(PlayerActions.Shield.ToString());
         AssignAction(block, null, ctx => Block(shield.gameObject, true), ctx => Block(shield.gameObject, false));
 
         target = GameManager.RequestTarget(context);
