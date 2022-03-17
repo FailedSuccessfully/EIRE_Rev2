@@ -43,7 +43,7 @@ public class MapBuilder : MonoBehaviour
                             Debug.Log("black");
                             var obj = GameObject.Instantiate(building, transform);
                             obj.transform.localPosition = new Vector3((x + offsetw) / 2, 0, (z + offseth) / 2);
-                            obj.transform.localScale = Vector3.one * 0.03f;
+                            obj.transform.localScale = new Vector3(0.02f, 0.03f, 0.02f);
                             break;
                         }
 
