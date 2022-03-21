@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     {
         cam = GetComponent<CinemachineVirtualCamera>();
         dol = cam.GetCinemachineComponent<CinemachineTrackedDolly>();
-        dol.m_PathPosition = 0;
+        dol.m_PathPosition = 30;
     }
 
     // Update is called once per frame
