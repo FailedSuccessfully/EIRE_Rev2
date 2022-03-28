@@ -58,11 +58,13 @@ public class GameManager : MonoBehaviour
         ResourceManager rm = new ResourceManager();
         RegisterSystem(rm);
         rm.InitPlayers();
-        DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
-        RegisterSystem(dc);
-        dc.Init();
-        dc.InitPlayers();
+        //        DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
+        //      RegisterSystem(dc);
+        //     dc.Init();
+        //   dc.InitPlayers();
         Debug.Log("Game Manager Finish 'Start'");
+
+        bm.OnStart();
     }
 
     #region Unity Callbacks

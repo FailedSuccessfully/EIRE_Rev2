@@ -74,6 +74,7 @@ public class MapBuilder : MonoBehaviour
     public static void Clear() => GameObject.DestroyImmediate(Map);
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(MapBuilder))]
 public class MapBuilderEditor : Editor
 {
@@ -88,3 +89,4 @@ public class MapBuilderEditor : Editor
             MapBuilder.Clear();
     }
 }
+#endif

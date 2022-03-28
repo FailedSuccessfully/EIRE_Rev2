@@ -8,5 +8,6 @@ public class SubDriver : MonoBehaviour
     {
         gameObject.layer = parentDriver.layer;
         transform.parent = parentDriver.transform;
+        transform.localRotation = Quaternion.identity;
     }
 }

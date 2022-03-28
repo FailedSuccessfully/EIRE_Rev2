@@ -108,5 +108,6 @@ public class CharacterDriver : Driver<Player>
         rigid.velocity = bounce;
     }
 
-    public void FlipX(bool isFlip) => subDrivers.OfType<Puppet>().FirstOrDefault()?.FlipX(isFlip);
+    public void FlipX(bool flip) => subDrivers.OfType<Puppet>().First().transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
+
 }

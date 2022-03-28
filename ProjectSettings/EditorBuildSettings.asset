@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/EIRE/Scenes/DevScene.unity
     guid: ac2d50606457aba41b677ae2c9a504ab
+  - enabled: 1
+    path: Assets/EIRE/Scenes/BackgroundScene.unity
+    guid: 46ef823757db6894bb6c782e98a36f5d
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 7256dc470b018094fb40814441e701a1, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 60a236b37e528f54d96a4b3b7c29f930, type: 2}

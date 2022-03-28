@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Puppet : SubDriver
 {
+    static int count = 0;
+    int num;
     CharacterDriver mainDriver;
     public Player MountContext => mainDriver.MountContext;
     GameObject puppet;
     void Awake()
     {
+        num = count++;
+        Debug.Log($"puppet awake {num}");
     }
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log($"puppet start {num}");
     }
 
     // Update is called once per frame
@@ -30,13 +35,9 @@ public class Puppet : SubDriver
         mainDriver = cd;
 
         base.SetContext(parentDriver);
+        Debug.Log($"Context set {num}");
         var d = GameManager.GetPlayerData<CharacterData>(MountContext);
-        puppet = GameObject.Instantiate(d.Puppet, Vector3.zero, Quaternion.identity);
-        puppet.transform.parent = transform;
-    }
-
-    public void FlipX(bool isFlip)
-    {
-        puppet.transform.localRotation = Quaternion.AngleAxis(isFlip ? 180 : 0, Vector3.up);
+        puppet = GameObject.Instantiate(d.Puppet, Vector3.zero, Quaternion.identity, transform);
+        Debug.Log($"Puppet instantiate {mainDriver.name}");
     }
 }

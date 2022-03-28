@@ -13,7 +13,7 @@ public class Shield : SubDriver
     {
         col = gameObject.AddComponent<SphereCollider>();
         spr = gameObject.AddComponent<SpriteRenderer>();
-        spr.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+        //spr.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
         spr.color = Color.blue * new Color(1, 1, 1, 0.3f);
         scale = Vector3.one;
     }
