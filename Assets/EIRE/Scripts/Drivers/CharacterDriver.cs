@@ -13,6 +13,8 @@ public class CharacterDriver : Driver<Player>
     SphereCollider hurtSphere;
     Rigidbody rigid;
     PlayerInput pInput;
+    Animator animator;
+    Vector3 rigidDir => rigid.velocity;
 
     Transform target;
     public Transform Target => target;
@@ -43,7 +45,8 @@ public class CharacterDriver : Driver<Player>
         Debug.Log(pInput.currentControlScheme);
         pInput.actions.actionMaps[0].Enable();
         pInput.actions.actionMaps[1].Enable();
-        AddSubDriver<Puppet>();
+        Puppet pup = AddSubDriver<Puppet>();
+        animator = pup.GetComponentInChildren<Animator>();
         var move = pInput.actions.actionMaps[1].FindAction(PlayerActions.Move.ToString());
         var a = pInput.actions.actionMaps[0].FindAction(PlayerActions.B1.ToString());
         var dash = pInput.actions.actionMaps[1].FindAction(PlayerActions.Dash.ToString());
@@ -67,7 +70,17 @@ public class CharacterDriver : Driver<Player>
         rigid.velocity = charData.Speed;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        animator.SetFloat("VecX", rigidDir.normalized.x);
+        animator.SetFloat("VecY", rigidDir.normalized.y);
+        animator.SetBool("Moving", rigidDir.magnitude > 1f);
+
+    }
+
     public void Move(Vector3 dir) => charData.Direction = dir;
+
     public void Dash()
     {
         charData.DashMult = 3;
