@@ -18,6 +18,8 @@ public class Puppet : SubDriver
     void Start()
     {
         Debug.Log($"puppet start {num}");
+        if (MountContext.index == 0)
+            mainDriver.FlipX(true);
     }
 
     // Update is called once per frame
