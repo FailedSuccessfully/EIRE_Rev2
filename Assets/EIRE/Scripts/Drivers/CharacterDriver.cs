@@ -83,7 +83,8 @@ public class CharacterDriver : Driver<Player>
 
     public void Dash()
     {
-        charData.DashMult = 3;
+        animator.SetTrigger("Dash");
+        charData.DashMult = 2;
         StartCoroutine(GameManager.ExecuteWithDelay(() => charData.DashMult = 1, 0.2f));
     }
 
