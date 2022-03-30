@@ -75,7 +75,7 @@ public class CharacterDriver : Driver<Player>
         base.Update();
         animator.SetFloat("VecX", rigidDir.normalized.x * subDrivers.OfType<Puppet>().First().transform.localScale.x);
         animator.SetFloat("VecY", rigidDir.normalized.y);
-        animator.SetBool("Moving", rigidDir.magnitude > 1f);
+        animator.SetBool("Moving", charData.Direction.magnitude > 0 && rigidDir.magnitude > 1f);
 
     }
 
