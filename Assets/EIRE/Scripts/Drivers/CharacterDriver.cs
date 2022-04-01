@@ -21,6 +21,7 @@ public class CharacterDriver : Driver<Player>
 
     protected override void Awake()
     {
+        transform.localScale *= 2;
         hurtSphere = gameObject.AddComponent<SphereCollider>();
         hurtSphere.radius = transform.localScale.magnitude * 0.1f;
         rigid = gameObject.AddComponent<Rigidbody>();
