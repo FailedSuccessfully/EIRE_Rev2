@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     GameSystem[] _systems;
     Dictionary<Player, GameData[]> _playerData;
     UnityAction onUpdate, onFixedUpdate;
+    CinemachineTargetGroup cameraTarget;
 
     #region  temporary editor properties
     public GameObject GameWorld_temp;
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cameraTarget = GameWorld_temp.GetComponentInChildren<CinemachineTargetGroup>();
 
         var p1 = new Player();
         var p2 = new Player();
@@ -52,6 +55,8 @@ public class GameManager : MonoBehaviour
         p1.AcceptDriver(d1);
         var d2 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
         p2.AcceptDriver(d2);
+        cameraTarget.AddMember(d1.transform, 1, 0);
+        cameraTarget.AddMember(d2.transform, 1, 0);
         BattleManager bm = new BattleManager(GameWorld_temp.transform, (80 * 2) / 5f);
         RegisterSystem(bm);
         bm.InitPlayers();
