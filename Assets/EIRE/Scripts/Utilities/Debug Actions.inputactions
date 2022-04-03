@@ -1,0 +1,34 @@
+{
+    "name": "Debug Actions",
+    "maps": [
+        {
+            "name": "Default",
+            "id": "b2f0e559-f149-44a9-a7e0-8783451c57f8",
+            "actions": [
+                {
+                    "name": "Color Players",
+                    "type": "Button",
+                    "id": "d8a3316d-3cdf-419e-b798-43b7b64532c2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "23d69120-bbbb-485a-8589-9c998d793c7e",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Color Players",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
