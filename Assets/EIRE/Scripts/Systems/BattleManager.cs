@@ -14,16 +14,6 @@ public class BattleManager : GameSystem
     static BattlePhase Phase;
     static Camera cam => Camera.main;
     static Vector3 velocity, target;
-    static bool isFlip
-    {
-        get { return isFlip; }
-        set
-        {
-            if (value != isFlip)
-                Debug.Log("filpped");
-            isFlip = value;
-        }
-    }
 
     public BattleManager(Transform stage, float radius)
     {
@@ -60,9 +50,6 @@ public class BattleManager : GameSystem
     public override void OnStart()
     {
         base.OnStart();
-        Debug.Log("bm start");
-        FlipPlayer(Player1);
-        //FlipPlayer(Player2);
     }
 
     public override void OnUpdate()
@@ -73,6 +60,7 @@ public class BattleManager : GameSystem
 
     public override void OnFixedUpdate()
     {
+        EventsManager.CheckEvent(GameEvent.SwitchDirections, -1 * (Player1.transform.position - Player2.transform.position).x);
         CalculateCamera();
         foreach (CharacterDriver driver in GameManager.GetDriversOfType<Player>())
         {
@@ -139,10 +127,5 @@ public class BattleManager : GameSystem
         {
             EventsManager.ForceInvoke(GameEvent.TimerZero);
         }
-    }
-
-    void FlipPlayer(CharacterDriver p, bool flip = true)
-    {
-        p.FlipX(flip);
     }
 }

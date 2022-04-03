@@ -47,7 +47,6 @@ public class MapBuilder : MonoBehaviour
 
                 case ({ r: 0, g: 1, b: 0, a: 1 }):
                     {
-                        Debug.Log("green");
                         var obj = GameObject.Instantiate(tree, Map.transform);
                         obj.transform.localPosition = new Vector3((x + offsetw) / 2, 0, (z + offseth) / 2);
                         obj.transform.localScale = Vector3.one * 0.1f;
@@ -56,7 +55,6 @@ public class MapBuilder : MonoBehaviour
 
                 case ({ r: 0, g: 0, b: 0, a: 1 }):
                     {
-                        Debug.Log("black");
                         var obj = GameObject.Instantiate(building, Map.transform);
                         obj.transform.localPosition = new Vector3((x + offsetw) / 2, 0, (z + offseth) / 2);
                         obj.transform.localScale = new Vector3(0.02f, 0.03f, 0.02f);

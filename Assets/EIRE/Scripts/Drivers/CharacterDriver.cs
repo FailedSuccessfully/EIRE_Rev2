@@ -21,7 +21,6 @@ public class CharacterDriver : Driver<Player>
 
     protected override void Awake()
     {
-        transform.localScale *= 2;
         hurtSphere = gameObject.AddComponent<SphereCollider>();
         hurtSphere.radius = transform.localScale.magnitude * 0.1f;
         rigid = gameObject.AddComponent<Rigidbody>();
@@ -43,7 +42,6 @@ public class CharacterDriver : Driver<Player>
         //pInput.actions.AddActionMap(inputs.Actions.Clone());
         pInput.actions = inputs.Default;
         pInput.SwitchCurrentControlScheme(pInput.actions.controlSchemes[0].name, Keyboard.current);
-        Debug.Log(pInput.currentControlScheme);
         pInput.actions.actionMaps[0].Enable();
         pInput.actions.actionMaps[1].Enable();
         Puppet pup = AddSubDriver<Puppet>();
@@ -63,6 +61,8 @@ public class CharacterDriver : Driver<Player>
         AssignAction(block, null, ctx => Block(shield.gameObject, true), ctx => Block(shield.gameObject, false));
 
         target = GameManager.RequestTarget(context);
+
+        EventsManager.RegisterToEvent(GameEvent.SwitchDirections, FlipX);
     }
     protected override void FixedUpdate()
     {
@@ -123,6 +123,9 @@ public class CharacterDriver : Driver<Player>
         rigid.velocity = bounce;
     }
 
-    public void FlipX(bool flip) => subDrivers.OfType<Puppet>().First().transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
-
+    public void FlipX()
+    {
+        Transform t = subDrivers.OfType<Puppet>().First().transform;
+        t.localScale = new Vector3(t.localScale.x * -1, t.localScale.y, t.localScale.z);
+    }
 }

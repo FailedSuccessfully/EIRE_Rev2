@@ -7,10 +7,12 @@ public enum GameEvent
 {
     HPZero,
     TimerZero,
-    EnoughWins
+    EnoughWins,
+    SwitchDirections
 }
 public class EventsManager : GameSystem
 {
+    static float distance = 0;
     public static Dictionary<GameEvent, UnityEvent> Events;
     private static Dictionary<GameEvent, System.Func<float, bool>> Checks;
 
@@ -32,6 +34,13 @@ public class EventsManager : GameSystem
         Checks[GameEvent.HPZero] = hp => hp <= 0;
         Checks[GameEvent.TimerZero] = timer => timer <= 0;
         Checks[GameEvent.EnoughWins] = wins => wins == 2;
+        Checks[GameEvent.SwitchDirections] = distance =>
+        {
+            bool isSwitch = Mathf.Sign(distance) != Mathf.Sign(EventsManager.distance);
+            Debug.Log($"{distance} {EventsManager.distance}");
+            EventsManager.distance = distance;
+            return isSwitch;
+        };
     }
 
     public static void RegisterToEvent(GameEvent ev, UnityAction func)
@@ -46,12 +55,13 @@ public class EventsManager : GameSystem
 
     internal static bool CheckEvent(GameEvent ev, float value)
     {
-        bool res = Checks[ev].Invoke(value);
-        if (res)
+        bool result = Checks[ev].Invoke(value);
+        if (result)
             Events[ev].Invoke();
-        return res;
+        return result;
     }
-    internal static void ForceInvoke(GameEvent ev){
+    internal static void ForceInvoke(GameEvent ev)
+    {
         Events[ev].Invoke();
     }
 }
