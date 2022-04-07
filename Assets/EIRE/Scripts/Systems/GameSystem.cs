@@ -11,6 +11,7 @@ public abstract class GameSystem
     public virtual void OnFixedUpdate() { }
 
     public virtual void OnStart() { }
+    public virtual void InitPlayers() { }
 
     //?public virtual void RequestDriver() { }
 }

@@ -11,7 +11,7 @@ public class CharacterManager : GameSystem
         DataType = typeof(CharacterData);
     }
 
-    public void InitPlayers()
+    public override void InitPlayers()
     {
         //TODO: find a more concise way to write this
         CharacterData P1, P2;

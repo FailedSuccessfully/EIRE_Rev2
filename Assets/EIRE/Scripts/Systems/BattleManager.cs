@@ -26,7 +26,7 @@ public class BattleManager : GameSystem
         EventsManager.RegisterToEvent(GameEvent.TimerZero, () => { Phase.EndPhase(); Phase = Phase.MovePhase(); phaseTimer = Time.fixedTime + Phase.Time; });
     }
 
-    public void InitPlayers()
+    public override void InitPlayers()
     {
         BattleData P1, P2;
         P1 = new BattleData()

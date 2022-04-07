@@ -18,7 +18,7 @@ public class InputController : GameSystem
         DataType = typeof(InputData);
     }
 
-    public void InitPlayers()
+    public override void InitPlayers()
     {
         InputData P1, P2;
         var inputs = Addressables.LoadAssetsAsync<InputActionAsset>("Input", asset =>

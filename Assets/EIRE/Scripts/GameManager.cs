@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public static Driver<T>[] GetDriversOfType<T>() where T : IDriveable => driverPool.Fetch<T>();
     GameSystem[] _systems;
     Dictionary<Player, GameData[]> _playerData;
-    UnityAction onUpdate, onFixedUpdate;
+    UnityAction onUpdate, onFixedUpdate, onStart;
     CinemachineTargetGroup cameraTarget;
 
     #region  temporary editor properties
@@ -43,39 +43,35 @@ public class GameManager : MonoBehaviour
         var p2 = new Player();
         RegisterPlayer(p1);
         RegisterPlayer(p2);
-        EventsManager em = new EventsManager();
-        RegisterSystem(em);
-        InputController ic = new InputController();
-        RegisterSystem(ic);
-        ic.InitPlayers();
-        CharacterManager cm = new CharacterManager();
-        RegisterSystem(cm);
-        cm.InitPlayers();
+
+        RegisterSystem(new EventsManager());
+        RegisterSystem(new InputController());
+        RegisterSystem(new CharacterManager());
+        RegisterSystem(new BattleManager(GameWorld_temp.transform, (80 * 2) / 5f));
+        RegisterSystem(new ResourceManager());
+
+        //        DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
+        //      RegisterSystem(dc);
+        //     dc.Init();
+        //   dc.InitPlayers();
+
         var d1 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
         p1.AcceptDriver(d1);
         var d2 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
         p2.AcceptDriver(d2);
         cameraTarget.AddMember(d1.transform, 1, 0);
         cameraTarget.AddMember(d2.transform, 1, 0);
-        BattleManager bm = new BattleManager(GameWorld_temp.transform, (80 * 2) / 5f);
-        RegisterSystem(bm);
-        bm.InitPlayers();
-        ResourceManager rm = new ResourceManager();
-        RegisterSystem(rm);
-        rm.InitPlayers();
-        //        DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
-        //      RegisterSystem(dc);
-        //     dc.Init();
-        //   dc.InitPlayers();
-        Debug.Log("Game Manager Finish 'Start'");
 
-        bm.OnStart();
+        foreach (GameSystem sys in _systems)
+            sys.InitPlayers();
+
+        onStart.Invoke();
     }
 
     #region Unity Callbacks
     void Update() => onUpdate?.Invoke();
 
-    void FixedUpdate() => onFixedUpdate.Invoke();
+    void FixedUpdate() => onFixedUpdate?.Invoke();
 
     #endregion
 
@@ -106,6 +102,7 @@ public class GameManager : MonoBehaviour
         // Subscribe to events
         onUpdate += s.OnUpdate;
         onFixedUpdate += s.OnFixedUpdate;
+        onStart += s.OnStart;
     }
 
     private void RegisterPlayer(Player p) => _playerData.Add(p, new GameData[_systems.Length]);

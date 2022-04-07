@@ -22,7 +22,7 @@ public class DisplayController : GameSystem
         };
     }
 
-    public void InitPlayers()
+    public override void InitPlayers()
     {
         foreach (Player p in GameManager.Players)
         {

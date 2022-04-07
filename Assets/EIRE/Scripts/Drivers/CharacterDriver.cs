@@ -47,12 +47,14 @@ public class CharacterDriver : Driver<Player>
         Puppet pup = AddSubDriver<Puppet>();
         animator = pup.GetComponentInChildren<Animator>();
         var move = pInput.actions.actionMaps[1].FindAction(PlayerActions.Move.ToString());
-        var a = pInput.actions.actionMaps[0].FindAction(PlayerActions.B1.ToString());
+        var b1 = pInput.actions.actionMaps[0].FindAction(PlayerActions.B1.ToString());
+        var b2 = pInput.actions.actionMaps[0].FindAction(PlayerActions.B2.ToString());
         var dash = pInput.actions.actionMaps[1].FindAction(PlayerActions.Dash.ToString());
 
         AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
         AssignAction(dash, onPerformed: ctx => Dash());
-        AssignSpawnAction(a, charData.AttackProperties[0]);
+        AssignAction(b1, onPerformed: ctx => animator.SetTrigger("B1"));
+        AssignSpawnAction(b2, charData.AttackProperties[0]);
 
         GameManager.SetData<InputData>(context, inputs);
 
