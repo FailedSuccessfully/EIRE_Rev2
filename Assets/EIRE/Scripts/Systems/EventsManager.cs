@@ -37,7 +37,6 @@ public class EventsManager : GameSystem
         Checks[GameEvent.SwitchDirections] = distance =>
         {
             bool isSwitch = Mathf.Sign(distance) != Mathf.Sign(EventsManager.distance);
-            Debug.Log($"{distance} {EventsManager.distance}");
             EventsManager.distance = distance;
             return isSwitch;
         };

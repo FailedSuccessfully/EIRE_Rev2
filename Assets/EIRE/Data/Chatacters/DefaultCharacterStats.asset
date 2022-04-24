@@ -20,7 +20,7 @@ MonoBehaviour:
   BarrierRegen: 100
   BaseSpeed: 5
   MaxSpeed: 20
-  puppet: {fileID: 962556612234117740, guid: 878ee27aaf052fd4bac0eefd722f2cdf, type: 3}
+  puppet: {fileID: 8823193688412479077, guid: 5cb0da74223e30d4c9c05d8935c44c86, type: 3}
   propsA: {fileID: 11400000, guid: b0bd9be5bf2a57240847ce4f4416eb49, type: 2}
   propsB: {fileID: 0}
   propsC: {fileID: 0}
