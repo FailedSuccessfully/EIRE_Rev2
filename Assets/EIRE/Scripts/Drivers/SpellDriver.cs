@@ -74,9 +74,10 @@ public class ForwardMoveState : PatternState
 public class RideSplineMoveState : PatternState
 {
     Vector3 scale;
+    SplineComputer spline;
     public override void OnStateEnter()
     {
-        SplineComputer spline = context.gameObject.AddComponent<SplineComputer>();
+        spline = context.gameObject.AddComponent<SplineComputer>();
         spline.editorAlwaysDraw = true;
         spline.is2D = true;
 
@@ -103,7 +104,7 @@ public class RideSplineMoveState : PatternState
         }
 
 
-        AttackUtilities.Movement.RideSpline(context.activeObject, spline);
+        AttackUtilities.Movement.RideSpline(context, spline);
     }
 
     public override void OnStateExit()
@@ -111,6 +112,7 @@ public class RideSplineMoveState : PatternState
         SplineFollower sFollower = context.activeObject.GetComponent<SplineFollower>();
         AttackUtilities.Movement.DetachSpline(sFollower);
         context.activeObject.transform.localScale = scale;
+        GameObject.Destroy(spline);
     }
 }
 
@@ -118,6 +120,7 @@ public class RotateToTargetState : PatternState
 {
     public override void OnStateEnter()
     {
+        //todo: make rotation gradual
         Vector3 direction = (context.activeObject.transform.position - context.target).normalized;
         context.activeObject.transform.rotation = Quaternion.LookRotation(direction);
         context.NextState();

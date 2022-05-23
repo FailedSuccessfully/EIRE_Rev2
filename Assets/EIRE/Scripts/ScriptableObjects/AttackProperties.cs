@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AttackProps : ScriptableObject, IDriveable
 {
-    [SerializeField] public float damage, pushback, cost, ttl, charge, release, currentCharge;
+    [SerializeField]
+    public float damage, pushback, cost, ttl;
     [SerializeField, Range(0.1f, 10f)] public float scale = 1f;
     [SerializeReference] public GameObject Effect;
     public MoveStrategies moveStrat;
