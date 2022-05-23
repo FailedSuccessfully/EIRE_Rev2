@@ -7,13 +7,13 @@ public interface IDriveable
 {
     public void AcceptDriver(GameObject driver);
 }
+public delegate void Hook();
 
 public abstract class Driver<T> : MonoBehaviour where T : IDriveable
 {
     protected T context;
     public Type DriverType => typeof(T);
     public T MountContext => context;
-    public delegate void Hook();
     internal Hook OnUpdate, OnFixedUpdate, OnEnableHook, OnDisableHook;
     protected List<SubDriver> subDrivers;
 

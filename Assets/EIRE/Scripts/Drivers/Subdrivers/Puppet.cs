@@ -10,6 +10,7 @@ public class Puppet : SubDriver
     // Start is called before the first frame update
     void Start()
     {
+
         transform.localScale *= 3;
         if (MountContext.index == 0)
             mainDriver.FlipX();

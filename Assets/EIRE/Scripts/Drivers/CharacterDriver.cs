@@ -10,7 +10,7 @@ public class CharacterDriver : Driver<Player>
 {
     private GameData[] Data => GameManager.GetPlayerData(context);
     private CharacterData charData => Data.OfType<CharacterData>().First(); //(data => data.GetType() == typeof(CharacterData))
-    SphereCollider hurtSphere;
+    BoxCollider hitBox;
     Rigidbody rigid;
     PlayerInput pInput;
     Animator animator;
@@ -21,10 +21,12 @@ public class CharacterDriver : Driver<Player>
 
     protected override void Awake()
     {
-        hurtSphere = gameObject.AddComponent<SphereCollider>();
-        hurtSphere.radius = transform.localScale.magnitude * 0.1f;
+        hitBox = gameObject.AddComponent<BoxCollider>();
+        hitBox.center = new Vector3(0.5f, 0.5f, 0);
+        hitBox.size = new Vector3(2, 5, 0);
         rigid = gameObject.AddComponent<Rigidbody>();
         rigid.useGravity = false;
+        rigid.constraints = RigidbodyConstraints.FreezeRotation;
         rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         pInput = gameObject.AddComponent<PlayerInput>();
         pInput.actions = ScriptableObject.CreateInstance<InputActionAsset>();
@@ -53,7 +55,7 @@ public class CharacterDriver : Driver<Player>
 
         AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
         AssignAction(dash, onPerformed: ctx => Dash());
-        AssignAction(b1, onPerformed: ctx => animator.SetTrigger("B1"));
+        AssignAction(b1, onPerformed: ctx => animator.SetBool("MeleeActive", true), onCanceled: ctx => animator.SetBool("MeleeActive", false));
         AssignSpawnAction(b2, charData.AttackProperties[0]);
 
         GameManager.SetData<InputData>(context, inputs);
@@ -129,5 +131,6 @@ public class CharacterDriver : Driver<Player>
     {
         Transform t = subDrivers.OfType<Puppet>().First().transform;
         t.localScale = new Vector3(t.localScale.x * -1, t.localScale.y, t.localScale.z);
+        hitBox.center = new Vector3(-hitBox.center.x, hitBox.center.y, hitBox.center.z);
     }
 }
