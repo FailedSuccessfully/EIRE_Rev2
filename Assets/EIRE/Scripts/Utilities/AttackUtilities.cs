@@ -10,14 +10,14 @@ public static class AttackUtilities
         public static void MoveForward(Transform transform, float speed) => transform.Translate(transform.right * speed * Time.deltaTime);
 
         // TODO: change to only accept spelldrivers
-        public static void RideSpline(GameObject gameObject, SplineComputer spline)
+        public static void RideSpline(SpellDriver driver, SplineComputer spline)
         {
-            SplineFollower sFollower = gameObject.TryGetComponent<SplineFollower>(out SplineFollower component) ? component : gameObject.AddComponent<SplineFollower>();
+            GameObject obj = driver.activeObject;
+            SplineFollower sFollower = obj.TryGetComponent<SplineFollower>(out SplineFollower component) ? component : obj.AddComponent<SplineFollower>();
             sFollower.motion.is2D = true;
             sFollower.spline = spline;
 
-            //TODO: no hard coding k?
-            sFollower.followSpeed = 5f;
+            sFollower.followSpeed = driver.MountContext.speed * driver.MountContext.splineData.SpeedMultiplyer;
             sFollower.useTriggers = true;
             sFollower.follow = true;
 
@@ -39,17 +39,13 @@ public static class AttackUtilities
             SplinePoint[] value = new SplinePoint[3];
             value[0] = new SplinePoint(Vector3.zero);
 
-            float angle = Random.Range(0, 180);
-            Vector3 midPoint = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0) * radius;
-            value[1] = new SplinePoint(midPoint);
-
-            Vector3 originToTargetIntersect = Vector3.ClampMagnitude(target, radius);
-            //TODO: Ratio math is bad
-            float ratio = (originToTargetIntersect - midPoint).magnitude / (target - midPoint).magnitude;
-            Vector3 endPoint = Vector3.Slerp(originToTargetIntersect, midPoint, ratio);
-            Debug.Log(originToTargetIntersect);
-            Debug.Log((target));
+            float angle = Random.Range(0, 360);
+            Vector3 endPoint = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0) * radius;
             value[2] = new SplinePoint(endPoint);
+
+            Vector3 midPoint = new Vector3((endPoint.x - target.x) * 0.5f, (target.y + endPoint.y) * 2, 0);
+
+            value[1] = new SplinePoint(Vector3.ClampMagnitude(midPoint, baseRadius * 2));
 
             return value;
         }
