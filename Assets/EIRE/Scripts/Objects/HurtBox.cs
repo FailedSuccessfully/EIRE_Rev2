@@ -29,8 +29,7 @@ public class HurtBox : MonoBehaviour
         {
             Vector3 point = col.ClosestPoint(other.transform.position);
             Vector3 direction = (other.transform.position - transform.position).normalized;
-            other.attachedRigidbody.AddForceAtPosition(direction * 75f, point, ForceMode.Impulse);
-            Debug.Log("Hitto");
+            other.attachedRigidbody.AddForceAtPosition(direction * 150f, point, ForceMode.Impulse);
 
         }
     }

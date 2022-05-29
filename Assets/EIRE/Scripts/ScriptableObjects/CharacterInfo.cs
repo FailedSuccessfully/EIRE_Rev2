@@ -9,4 +9,5 @@ public class CharacterInfo : ScriptableObject
     public GameObject puppet;
 
     public AttackProps propsA, propsB, propsC;
+    public SpellData spellA, spellB, spellC;
 }

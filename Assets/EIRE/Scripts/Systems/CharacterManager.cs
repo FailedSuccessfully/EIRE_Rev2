@@ -31,7 +31,8 @@ public class CharacterManager : GameSystem
             Speed = Vector3.zero,
             AttackProperties = new AttackProps[] { stats1.propsA,
                                                     stats1.propsB,
-                                                    stats1.propsC }
+                                                    stats1.propsC },
+            SpellData = new SpellData[] { stats1.spellA, stats1.spellB, stats1.spellC }
 
         };
         P2 = new CharacterData()
@@ -48,7 +49,8 @@ public class CharacterManager : GameSystem
             DashMult = 1,
             AttackProperties = new AttackProps[] { stats2.propsA,
                                                     stats2.propsB,
-                                                    stats2.propsC }
+                                                    stats2.propsC },
+            SpellData = new SpellData[] { stats2.spellA, stats2.spellB, stats2.spellC }
 
         };
         GameManager.CreateData<CharacterData>(GameManager.Players[0], this);

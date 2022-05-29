@@ -28,7 +28,7 @@
 }
 
 .Top-P2 > .Player > .Resource-Display {
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: stretch;

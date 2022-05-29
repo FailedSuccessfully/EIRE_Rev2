@@ -10,10 +10,19 @@ public class SpellDriver : Driver<SpellData>
     private PatternState moveState;
     public GameObject activeObject;
     public Vector3 target;
+    private Stack<Type> stack;
 
     public override Driver<SpellData> Mount(SpellData ctx)
     {
         activeObject = GameObject.Instantiate(ctx.prefab, transform);
+
+        stack = new Stack<Type>();
+        foreach (PatternStates stateName in ctx.stateStack)
+        {
+            stack.Push(PatternState.MoveStateDictionary[stateName]);
+        }
+
+        gameObject.SetActive(true);
         return base.Mount(ctx);
     }
 
@@ -31,7 +40,7 @@ public class SpellDriver : Driver<SpellData>
     }
     public void NextState()
     {
-        SwitchState((PatternState)Activator.CreateInstance(MountContext.PopState()));
+        SwitchState((PatternState)Activator.CreateInstance(stack.Pop()));
     }
     public void SetTarget(Transform transform) => target = transform.position;
 
@@ -121,8 +130,10 @@ public class RotateToTargetState : PatternState
     public override void OnStateEnter()
     {
         //todo: make rotation gradual
-        Vector3 direction = (context.activeObject.transform.position - context.target).normalized;
-        context.activeObject.transform.rotation = Quaternion.LookRotation(direction);
+        Vector2 direction = (context.target - context.activeObject.transform.position);
+        Debug.Log(direction);
+        context.activeObject.transform.localRotation = Quaternion.LookRotation(direction);
+
         context.NextState();
     }
 

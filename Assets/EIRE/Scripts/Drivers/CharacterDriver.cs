@@ -56,7 +56,13 @@ public class CharacterDriver : Driver<Player>
         AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
         AssignAction(dash, onPerformed: ctx => Dash());
         AssignAction(b1, onPerformed: ctx => animator.SetBool("MeleeActive", true), onCanceled: ctx => animator.SetBool("MeleeActive", false));
-        AssignSpawnAction(b2, charData.AttackProperties[0]);
+        //AssignSpawnAction(b2, charData.AttackProperties[0]);
+        if (charData.SpellData[0])
+        {
+            AssignAction(b2, onStarted: ctx => BattleManager.RequestSpell(charData.SpellData[0], MountContext.index));
+
+        }
+
 
         GameManager.SetData<InputData>(context, inputs);
 
@@ -112,7 +118,6 @@ public class CharacterDriver : Driver<Player>
         if (!(onCanceled is null))
             action.canceled += onCanceled;
     }
-
     private void AssignSpawnAction(InputAction action, AttackProps attackProps)
     {
         SpawnStrategy.SpawnTable[attackProps.spawnStrat].SetSpawn(action, attackProps, charData.playerIndex);

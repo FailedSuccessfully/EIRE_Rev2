@@ -24,3 +24,6 @@ MonoBehaviour:
   propsA: {fileID: 11400000, guid: b0760e0239858884bbb71b9800048b95, type: 2}
   propsB: {fileID: 0}
   propsC: {fileID: 0}
+  spellA: {fileID: 11400000, guid: cecdcef08e64e25419e4470966295bdf, type: 2}
+  spellB: {fileID: 0}
+  spellC: {fileID: 0}

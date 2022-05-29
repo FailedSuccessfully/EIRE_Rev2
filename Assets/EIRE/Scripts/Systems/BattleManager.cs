@@ -107,6 +107,20 @@ public class BattleManager : GameSystem
         }
         return driver;
     }
+
+    public static SpellDriver RequestSpell(SpellData data, int playerIndex)
+    {
+        SpellDriver driver = GameManager.RequestDriver<SpellData, SpellDriver>(data);
+        if (driver)
+        {
+            data.AcceptDriver(driver.gameObject);
+            driver.target = GameManager.Players[playerIndex].Driver.Target.position;
+            driver.transform.position = GameManager.Players[playerIndex].Driver.transform.position;
+            driver.gameObject.layer = GameManager.Players[playerIndex].Driver.Target.gameObject.layer;
+        }
+        return driver;
+    }
+
     public static void RequestRelease(Driver<AttackProps> driver) => GameManager.UnmountDriver(driver);
     static void CalculateCamera()
     {
