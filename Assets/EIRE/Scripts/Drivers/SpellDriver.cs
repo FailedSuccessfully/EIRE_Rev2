@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class SpellDriver : Driver<SpellData>
 {
+    public string State;
     private PatternState moveState;
     public GameObject activeObject;
     public Vector3 target;
@@ -37,6 +38,7 @@ public class SpellDriver : Driver<SpellData>
         state.SetContext(this);
         moveState = state;
         moveState?.OnStateEnter();
+        State = moveState.GetType().ToString();
     }
     public void NextState()
     {
@@ -127,17 +129,30 @@ public class RideSplineMoveState : PatternState
 
 public class RotateToTargetState : PatternState
 {
+    Quaternion targetRotation;
+    Quaternion currentRotation => context.activeObject.transform.localRotation;
     public override void OnStateEnter()
     {
         //todo: make rotation gradual
-        Vector2 direction = (context.target - context.activeObject.transform.position);
+        Vector3 direction = (context.target - context.activeObject.transform.position).normalized;
         Debug.Log(direction);
-        context.activeObject.transform.localRotation = Quaternion.LookRotation(direction);
-
+        targetRotation = Quaternion.FromToRotation(Vector3.right, direction);
+        context.activeObject.transform.localRotation = targetRotation;
+        //context.StartCoroutine(Rotate());
         context.NextState();
+
     }
 
     public override void OnStateExit()
     {
+    }
+
+    IEnumerator Rotate()
+    {
+        while (true)
+        {
+            context.activeObject.transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, 15f);
+            yield return null;
+        }
     }
 }

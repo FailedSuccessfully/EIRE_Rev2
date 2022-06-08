@@ -7,7 +7,6 @@ public class DebugTool : MonoBehaviour
 {
     public InputActionAsset DebugControls;
 
-
     void Awake()
     {
         Assign();
@@ -35,6 +34,13 @@ public class DebugTool : MonoBehaviour
                 }
                 colIndex++;
             }
+            ctx.action.Enable();
+        };
+
+        DebugControls.actionMaps[0].FindAction("ToggleUI").performed += ctx =>
+        {
+            ctx.action.Disable();
+            //TODO
             ctx.action.Enable();
         };
     }

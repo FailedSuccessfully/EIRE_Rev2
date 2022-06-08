@@ -62,3 +62,24 @@ The following packages were updated:
 The following packages were removed:
   com.unity.ui@1.0.0-preview.18
   com.unity.ui.builder@1.0.0-preview.18
+
+=== Sun May 29 19:46:21 2022
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.collab-proxy from version 1.15.12 to 1.15.15
+  com.unity.render-pipelines.universal from version 12.1.4 to 12.1.6
+  com.unity.test-framework from version 1.1.29 to 1.1.31
+  com.unity.timeline from version 1.6.3 to 1.6.4
+  com.unity.visualeffectgraph from version 12.1.4 to 12.1.6
+
+=== Mon May 30 11:52:07 2022
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.collab-proxy from version 1.15.15 to 1.15.16
+  com.unity.ide.visualstudio from version 2.0.14 to 2.0.15

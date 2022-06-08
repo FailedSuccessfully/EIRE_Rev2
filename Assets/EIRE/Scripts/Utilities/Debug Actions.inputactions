@@ -6,6 +6,15 @@
             "id": "b2f0e559-f149-44a9-a7e0-8783451c57f8",
             "actions": [
                 {
+                    "name": "ToggleUI",
+                    "type": "Button",
+                    "id": "9ad39e35-66a0-4d1f-a8ba-f2c780921a3e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Color Players",
                     "type": "Button",
                     "id": "d8a3316d-3cdf-419e-b798-43b7b64532c2",
@@ -16,6 +25,17 @@
                 }
             ],
             "bindings": [
+                {
+                    "name": "",
+                    "id": "15d18848-c2a0-4844-9114-3b4d177f929c",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
                 {
                     "name": "",
                     "id": "23d69120-bbbb-485a-8589-9c998d793c7e",
