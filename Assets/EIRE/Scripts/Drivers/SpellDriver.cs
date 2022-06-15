@@ -20,6 +20,7 @@ public class SpellDriver : Driver<SpellData>
         stack = new Stack<Type>();
         foreach (PatternStates stateName in ctx.stateStack)
         {
+            Debug.Log(stateName);
             stack.Push(PatternState.MoveStateDictionary[stateName]);
         }
 
@@ -32,13 +33,19 @@ public class SpellDriver : Driver<SpellData>
         NextState();
     }
 
+    protected override void Update()
+    {
+        //Debug.Log(activeObject.transform.position);
+    }
+
     private void SwitchState(PatternState state)
     {
         moveState?.OnStateExit();
         state.SetContext(this);
         moveState = state;
         moveState?.OnStateEnter();
-        State = moveState.GetType().ToString();
+        State = state.GetType().ToString();
+        Debug.Log($"{gameObject.name} entered the {State} state");
     }
     public void NextState()
     {
@@ -124,6 +131,7 @@ public class RideSplineMoveState : PatternState
         AttackUtilities.Movement.DetachSpline(sFollower);
         context.activeObject.transform.localScale = scale;
         GameObject.Destroy(spline);
+        GameObject.Destroy(sFollower);
     }
 }
 
@@ -133,12 +141,17 @@ public class RotateToTargetState : PatternState
     Quaternion currentRotation => context.activeObject.transform.localRotation;
     public override void OnStateEnter()
     {
-        //todo: make rotation gradual
-        Vector3 direction = (context.target - context.activeObject.transform.position).normalized;
+        targetRotation = Quaternion.LookRotation(context.target - context.activeObject.transform.position);
+
+        context.StartCoroutine(Rotate());
+
+        /*
+        Vector3 direction = (context.target - context.activeObject.transform.position);
         Debug.Log(direction);
+        Debug.Log(context.activeObject.transform.position);
         targetRotation = Quaternion.FromToRotation(Vector3.right, direction);
         context.activeObject.transform.localRotation = targetRotation;
-        //context.StartCoroutine(Rotate());
+        */
         context.NextState();
 
     }
@@ -151,7 +164,7 @@ public class RotateToTargetState : PatternState
     {
         while (true)
         {
-            context.activeObject.transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, 15f);
+            context.activeObject.transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, 30f * Time.deltaTime);
             yield return null;
         }
     }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e67f8df7d08de4b88e17e90bd41568, type: 3}
   m_Name: felic_proj_spline
   m_EditorClassIdentifier: 
-  SpeedMultiplyer: 0.571
+  SpeedMultiplyer: 0.3
   launcherRadius: 5
   Scaling: {x: 2, y: 1, z: 1}

@@ -9,7 +9,6 @@ public static class AttackUtilities
     {
         public static void MoveForward(Transform transform, float speed) => transform.Translate(transform.right * speed * Time.deltaTime);
 
-        // TODO: change to only accept spelldrivers
         public static void RideSpline(SpellDriver driver, SplineComputer spline)
         {
             GameObject obj = driver.activeObject;
