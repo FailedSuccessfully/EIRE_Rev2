@@ -5,11 +5,13 @@ using System.Linq;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public CharacterInfo[] characters;
     public static Player[] Players => Instance._playerData.Keys.ToArray();
     private static DriverPool driverPool;
     public static GameObject[] Drivers => driverPool.FetchAll();
@@ -56,16 +58,19 @@ public class GameManager : MonoBehaviour
         //   dc.InitPlayers();
 
         var d1 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
+        d1.transform.position += Vector3.left * 5;
         p1.AcceptDriver(d1);
         var d2 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
+        d2.transform.position += Vector3.right * 5;
         p2.AcceptDriver(d2);
         cameraTarget.AddMember(d1.transform, 1, 0);
         cameraTarget.AddMember(d2.transform, 1, 0);
 
         foreach (GameSystem sys in _systems)
-            sys.InitPlayers();
+            sys?.InitPlayers();
 
         onStart.Invoke();
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 
     #region Unity Callbacks

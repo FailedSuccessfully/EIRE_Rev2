@@ -9,7 +9,7 @@ using System;
 public class CharacterDriver : Driver<Player>
 {
     private GameData[] Data => GameManager.GetPlayerData(context);
-    private CharacterData charData => Data.OfType<CharacterData>().First(); //(data => data.GetType() == typeof(CharacterData))
+    public CharacterData charData => Data?.OfType<CharacterData>().FirstOrDefault(); //(data => data.GetType() == typeof(CharacterData))
     BoxCollider hitBox;
     Rigidbody rigid;
     PlayerInput pInput;
@@ -17,6 +17,7 @@ public class CharacterDriver : Driver<Player>
     Vector3 rigidDir => rigid.velocity;
 
     Transform target;
+    Puppet puppet;
     public Transform Target => target;
 
     protected override void Awake()
@@ -38,7 +39,9 @@ public class CharacterDriver : Driver<Player>
 
     void Start()
     {
-        gameObject.layer = Data.OfType<BattleData>().First().layer;
+        var d = Data.OfType<BattleData>().FirstOrDefault();
+        if (d != null)
+            gameObject.layer = Data.OfType<BattleData>().First().layer;
 
         var inputs = Data.OfType<InputData>().First();
         //pInput.actions.AddActionMap(inputs.Actions.Clone());
@@ -46,8 +49,8 @@ public class CharacterDriver : Driver<Player>
         pInput.SwitchCurrentControlScheme(pInput.actions.controlSchemes[0].name, Keyboard.current);
         pInput.actions.actionMaps[0].Enable();
         pInput.actions.actionMaps[1].Enable();
-        Puppet pup = AddSubDriver<Puppet>();
-        animator = pup.GetComponentInChildren<Animator>();
+        puppet = AddSubDriver<Puppet>();
+        animator = puppet.GetComponentInChildren<Animator>();
         var move = pInput.actions.actionMaps[1].FindAction(PlayerActions.Move.ToString());
         var b1 = pInput.actions.actionMaps[0].FindAction(PlayerActions.B1.ToString());
         var b2 = pInput.actions.actionMaps[0].FindAction(PlayerActions.B2.ToString());
@@ -76,17 +79,20 @@ public class CharacterDriver : Driver<Player>
     }
     protected override void FixedUpdate()
     {
-        charData.Speed = Vector3.ClampMagnitude(rigid.velocity + charData.Direction, charData.MaxSpeed) * charData.DashMult;
-        charData.Speed *= 0.95f;
-        rigid.velocity = charData.Speed;
+        if (charData != null)
+        {
+            charData.Speed = Vector3.ClampMagnitude(rigid.velocity + charData.Direction, charData.MaxSpeed) * charData.DashMult;
+            charData.Speed *= 0.95f;
+            rigid.velocity = charData.Speed;
+        }
     }
 
     protected override void Update()
     {
         base.Update();
-        animator.SetFloat("VecX", rigidDir.normalized.x * subDrivers.OfType<Puppet>().First().transform.localScale.x);
-        animator.SetFloat("VecY", rigidDir.normalized.y);
-        animator.SetBool("Moving", charData.Direction.magnitude > 0 && rigidDir.magnitude > 1f);
+        animator?.SetFloat("VecX", rigidDir.normalized.x * (puppet ? puppet.transform.localScale.x : 1));
+        animator?.SetFloat("VecY", rigidDir.normalized.y);
+        animator?.SetBool("Moving", charData.Direction.magnitude > 0 && rigidDir.magnitude > 1f);
 
     }
 

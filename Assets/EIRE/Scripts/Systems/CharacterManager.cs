@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class CharacterManager : GameSystem
 {
@@ -15,8 +14,8 @@ public class CharacterManager : GameSystem
     {
         //TODO: find a more concise way to write this
         CharacterData P1, P2;
-        var stats1 = Addressables.LoadAssetAsync<CharacterInfo>("CharacterData/Felicia").WaitForCompletion();
-        var stats2 = Addressables.LoadAssetAsync<CharacterInfo>("CharacterData/DefaultStats").WaitForCompletion();
+        var stats1 = GameManager.Instance.characters[0];
+        var stats2 = GameManager.Instance.characters[1];
         P1 = new CharacterData()
         {
             playerIndex = 0,
@@ -29,6 +28,8 @@ public class CharacterManager : GameSystem
             DashMult = 1,
             Direction = Vector3.zero,
             Speed = Vector3.zero,
+            puppetScale = stats1.puppetScale,
+            puppetOffset = stats1.puppetOffset,
             AttackProperties = new AttackProps[] { stats1.propsA,
                                                     stats1.propsB,
                                                     stats1.propsC },
@@ -47,6 +48,8 @@ public class CharacterManager : GameSystem
             Direction = Vector3.zero,
             Speed = Vector3.zero,
             DashMult = 1,
+            puppetScale = stats2.puppetScale,
+            puppetOffset = stats2.puppetOffset,
             AttackProperties = new AttackProps[] { stats2.propsA,
                                                     stats2.propsB,
                                                     stats2.propsC },

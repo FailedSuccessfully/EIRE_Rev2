@@ -22,6 +22,8 @@ public class CharacterData : GameData
     public Resource Health, Mana, Barrier;
     public AttackProps[] AttackProperties;
     public SpellData[] SpellData;
+    public float puppetScale;
+    public Vector3 puppetOffset;
 }
 
 public class BattleData : GameData

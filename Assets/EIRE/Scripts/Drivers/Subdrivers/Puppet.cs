@@ -11,9 +11,12 @@ public class Puppet : SubDriver
     void Start()
     {
 
-        transform.localScale *= 3;
+        transform.localScale *= mainDriver.charData.puppetScale;
+        transform.localPosition = Vector3.zero;
+        transform.localPosition += mainDriver.charData.puppetOffset;
         if (MountContext.index == 0)
             mainDriver.FlipX();
+        GetComponentInChildren<HurtBox>().SetLayer(GameManager.RequestTarget(mainDriver.MountContext).gameObject.layer);
     }
 
     public override void SetContext(GameObject parentDriver)

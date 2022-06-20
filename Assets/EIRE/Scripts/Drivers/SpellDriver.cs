@@ -20,7 +20,7 @@ public class SpellDriver : Driver<SpellData>
         stack = new Stack<Type>();
         foreach (PatternStates stateName in ctx.stateStack)
         {
-            Debug.Log(stateName);
+            //Debug.Log(stateName);
             stack.Push(PatternState.MoveStateDictionary[stateName]);
         }
 
@@ -31,11 +31,18 @@ public class SpellDriver : Driver<SpellData>
     void Start()
     {
         NextState();
+        GetComponentInChildren<HurtBox>().RecieveOn();
     }
 
     protected override void Update()
     {
-        //Debug.Log(activeObject.transform.position);
+        base.Update();
+        if (!BattleManager.InsideStageBoundaries(this))
+        {
+            BattleManager.RequestRelease(this);
+            DestroyImmediate(activeObject);
+        }
+
     }
 
     private void SwitchState(PatternState state)
@@ -45,13 +52,17 @@ public class SpellDriver : Driver<SpellData>
         moveState = state;
         moveState?.OnStateEnter();
         State = state.GetType().ToString();
-        Debug.Log($"{gameObject.name} entered the {State} state");
+        //        Debug.Log($"{gameObject.name} entered the {State} state");
     }
     public void NextState()
     {
         SwitchState((PatternState)Activator.CreateInstance(stack.Pop()));
     }
-    public void SetTarget(Transform transform) => target = transform.position;
+    public void SetTarget(Transform transform)
+    {
+        target = transform.position;
+        GetComponentInChildren<HurtBox>().SetLayer(transform.gameObject.layer);
+    }
 
 }
 public enum PatternStates
@@ -79,7 +90,10 @@ public class ForwardMoveState : PatternState
 {
     public override void OnStateEnter()
     {
-        handler = () => AttackUtilities.Movement.MoveForward(context.activeObject.transform, context.MountContext.speed);
+        Vector3 dir = context.target - context.transform.position;
+        Debug.Log(dir);
+
+        handler = () => AttackUtilities.Movement.MoveForward(context.transform, context.MountContext.speed, dir);
         context.OnUpdate += handler;
     }
 
@@ -96,7 +110,7 @@ public class RideSplineMoveState : PatternState
     public override void OnStateEnter()
     {
         spline = context.gameObject.AddComponent<SplineComputer>();
-        spline.editorAlwaysDraw = true;
+        //spline.editorAlwaysDraw = true;
         spline.is2D = true;
 
         /* TODO: This is hardcoded
@@ -141,18 +155,20 @@ public class RotateToTargetState : PatternState
     Quaternion currentRotation => context.activeObject.transform.localRotation;
     public override void OnStateEnter()
     {
-        targetRotation = Quaternion.LookRotation(context.target - context.activeObject.transform.position);
+        //targetRotation = Quaternion.LookRotation(((Vector2)context.transform.position - (Vector2)context.transform.position).normalized, Vector3.up);
+        //Debug.Log(((Vector2)context.activeObject.transform.position - (Vector2)context.transform.position).normalized);
 
-        context.StartCoroutine(Rotate());
+        //context.StartCoroutine(Rotate());
 
-        /*
-        Vector3 direction = (context.target - context.activeObject.transform.position);
+        //context.transform.LookAt(context.target, Vector3.up);
+        context.NextState();
+
+        /*Vector3 direction = (context.target - context.activeObject.transform.position);
         Debug.Log(direction);
         Debug.Log(context.activeObject.transform.position);
-        targetRotation = Quaternion.FromToRotation(Vector3.right, direction);
-        context.activeObject.transform.localRotation = targetRotation;
-        */
-        context.NextState();
+        targetRotation = Quaternion.LookRotation((Vector2)direction);
+        context.activeObject.transform.localRotation = targetRotation;*/
+
 
     }
 
@@ -162,9 +178,12 @@ public class RotateToTargetState : PatternState
 
     IEnumerator Rotate()
     {
+        yield return new WaitForEndOfFrame();
+        context.NextState();
         while (true)
         {
-            context.activeObject.transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, 30f * Time.deltaTime);
+            //Debug.Log(context.activeObject.transform.position);
+            context.activeObject.transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, 90f * Time.deltaTime);
             yield return null;
         }
     }

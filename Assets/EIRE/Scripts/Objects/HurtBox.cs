@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class HurtBox : MonoBehaviour
 {
+    public float force;
     BoxCollider col;
     int targetLayer;
     void Awake()
@@ -17,7 +18,11 @@ public class HurtBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        targetLayer = GetComponentInParent<CharacterDriver>().Target.gameObject.layer;
+        //targetLayer = GetComponentInParent<CharacterDriver>().Target.gameObject.layer;
+    }
+    public void SetLayer(int layer)
+    {
+        targetLayer = layer;
     }
 
     public void RecieveOn() => col.enabled = true;
@@ -29,7 +34,7 @@ public class HurtBox : MonoBehaviour
         {
             Vector3 point = col.ClosestPoint(other.transform.position);
             Vector3 direction = (other.transform.position - transform.position).normalized;
-            other.attachedRigidbody.AddForceAtPosition(direction * 150f, point, ForceMode.Impulse);
+            other.attachedRigidbody.AddForceAtPosition(direction * force, point, ForceMode.Impulse);
 
         }
     }

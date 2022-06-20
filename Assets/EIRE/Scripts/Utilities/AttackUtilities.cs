@@ -7,7 +7,10 @@ public static class AttackUtilities
 {
     public static class Movement
     {
-        public static void MoveForward(Transform transform, float speed) => transform.Translate(transform.right * speed * Time.deltaTime);
+        public static void MoveForward(Transform transform, float speed, Vector2 direction)
+        {
+            transform.Translate((Vector2)direction * speed * Time.deltaTime);
+        }
 
         public static void RideSpline(SpellDriver driver, SplineComputer spline)
         {

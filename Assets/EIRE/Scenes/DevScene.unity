@@ -281,7 +281,6 @@ GameObject:
   m_Component:
   - component: {fileID: 312665912}
   - component: {fileID: 312665913}
-  - component: {fileID: 312665917}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -316,20 +315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0616eddeaf08474bb25a163c4d76075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characters:
+  - {fileID: 11400000, guid: a1858d6064df1bc4f89b8c3d6f9f8281, type: 2}
+  - {fileID: 11400000, guid: 7b39e2c958bb0754a966bc9a4e21086a, type: 2}
   GameWorld_temp: {fileID: 1884054398}
---- !u!114 &312665917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312665911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a41932cdb5b45a54faa36f682ce0f16b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebugControls: {fileID: -944628639613478452, guid: af7c3ca2718d7a34d83fa7d943233de0, type: 3}
 --- !u!1 &734707654
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,8 +503,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846861164}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: 0.0000013451406, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0006219956, z: -10.000969}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -552,7 +541,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6027397, y: 1}
+    m_SensorSize: {x: 1.5978261, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -589,7 +578,7 @@ GameObject:
   - component: {fileID: 876503981}
   - component: {fileID: 876503980}
   - component: {fileID: 876503979}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -823,8 +812,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1811066933}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -81.2}
+  m_LocalRotation: {x: 0.0000013451406, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0006219956, z: -81.200966}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -852,10 +841,10 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1014
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -968,7 +957,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2003330965}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0005950928, z: -0.0009689331}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

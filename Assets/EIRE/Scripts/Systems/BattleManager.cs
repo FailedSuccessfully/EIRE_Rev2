@@ -60,7 +60,7 @@ public class BattleManager : GameSystem
 
     public override void OnFixedUpdate()
     {
-        EventsManager.CheckEvent(GameEvent.SwitchDirections, -1 * (Player1.transform.position - Player2.transform.position).x);
+        //EventsManager.CheckEvent(GameEvent.SwitchDirections, -1 * (Player1.transform.position - Player2.transform.position).x);
         CalculateCamera();
         foreach (CharacterDriver driver in GameManager.GetDriversOfType<Player>())
         {
@@ -75,14 +75,16 @@ public class BattleManager : GameSystem
         foreach (AttackDriver driver in GameManager.GetDriversOfType<AttackProps>().Where(driver => driver.enabled))
         {
             driver.transform.position = MoveStrategy.MoveTable[driver.MountContext.moveStrat].Move(driver);
-            if (driver.isTTL) RequestRelease(driver as Driver<AttackProps>);
+            //if (driver.isTTL) RequestRelease(driver as Driver<AttackProps>);
         }
         if (EventsManager.CheckEvent(GameEvent.TimerZero, phaseTimer - Time.fixedTime))
             Debug.Log(Phase.GetType().ToString());
     }
 
     public static bool InsideStageBoundaries(GameObject toCheck, Vector3 stagePosition) => Vector3.Distance(toCheck.transform.position, stagePosition) <= Radius - bounceOffset;
+    public static bool InsideStageBoundaries(SpellDriver toCheck, Vector3 stagePosition) => Vector3.Distance(toCheck.transform.position, stagePosition) < Radius + 30f;
     public static bool InsideStageBoundaries(GameObject toCheck) => Stage ? InsideStageBoundaries(toCheck, Stage.position) : false;
+    public static bool InsideStageBoundaries(SpellDriver toCheck) => Stage ? InsideStageBoundaries(toCheck, Stage.position) : false;
     public void SetStage(Transform stage) => Stage = stage;
     public static Vector3 BounceIn(Transform toBounce, Vector3 movement)
     {
@@ -114,22 +116,28 @@ public class BattleManager : GameSystem
         if (driver)
         {
             data.AcceptDriver(driver.gameObject);
-            driver.target = GameManager.Players[playerIndex].Driver.Target.position;
+            driver.SetTarget(GameManager.Players[playerIndex].Driver.Target.transform);
+            /*Debug.Log(driver.target);
+            Debug.Log(driver.transform.position);
+            Debug.Log(driver.activeObject.transform.position);*/
             driver.transform.position = GameManager.Players[playerIndex].Driver.transform.position;
             driver.gameObject.layer = GameManager.Players[playerIndex].Driver.Target.gameObject.layer;
         }
         return driver;
     }
 
-    public static void RequestRelease(Driver<AttackProps> driver) => GameManager.UnmountDriver(driver);
+    public static void RequestRelease(Driver<SpellData> driver) => GameManager.UnmountDriver(driver);
     static void CalculateCamera()
     {
-        Vector3 midPlayers = Vector3.Lerp(Player1.transform.position, Player2.transform.position, 0.5f);
-        float distance = Vector3.Distance(Player1.transform.position, Player2.transform.position);
-        Vector3 LerpX = Vector3.right * Mathf.Lerp(-20, 20, midPlayers.x / 40 + 0.5f);
-        Vector3 LerpY = Vector3.up * Mathf.Lerp(-20, 20, midPlayers.y / 40 + 0.5f);
-        Vector3 LerpZ = Vector3.forward * Mathf.Lerp(-40, -120, distance / 80);
-        target = LerpX + LerpY + LerpZ;
+        if (Player1 && Player2)
+        {
+            Vector3 midPlayers = Vector3.Lerp(Player1.transform.position, Player2.transform.position, 0.5f);
+            float distance = Vector3.Distance(Player1.transform.position, Player2.transform.position);
+            Vector3 LerpX = Vector3.right * Mathf.Lerp(-20, 20, midPlayers.x / 40 + 0.5f);
+            Vector3 LerpY = Vector3.up * Mathf.Lerp(-20, 20, midPlayers.y / 40 + 0.5f);
+            Vector3 LerpZ = Vector3.forward * Mathf.Lerp(-40, -120, distance / 80);
+            target = LerpX + LerpY + LerpZ;
+        }
     }
     static void MaintainCamera()
     {

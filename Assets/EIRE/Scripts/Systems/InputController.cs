@@ -26,6 +26,7 @@ public class InputController : GameSystem
         });
         inputs.WaitForCompletion();
 
+
         P1 = new InputData() { Custom = inputs.Result[0], Default = inputs.Result[1] };
         P2 = new InputData() { Custom = inputs.Result[2], Default = inputs.Result[3] };
         GameManager.CreateData<InputData>(GameManager.Players[0], this);

@@ -14,8 +14,11 @@ public class ResourceManager : GameSystem
         foreach (Player p in GameManager.Players)
         {
             var d = GameManager.GetPlayerData<ResourceData>(p);
-            RegenResources(d.RoundResources);
-            GameManager.SetData<ResourceData>(p, d);
+            if (d != null)
+            {
+                RegenResources(d.RoundResources);
+                GameManager.SetData<ResourceData>(p, d);
+            }
 
         }
     }
