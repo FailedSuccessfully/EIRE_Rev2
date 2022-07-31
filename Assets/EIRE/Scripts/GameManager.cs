@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
             sys?.InitPlayers();
 
         onStart.Invoke();
-        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 
     #region Unity Callbacks
