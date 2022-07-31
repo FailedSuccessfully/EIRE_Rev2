@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.InputSystem;
 using UnityEditor;
 using System;
+using UnityEngine.InputSystem.Users;
 
 public class CharacterDriver : Driver<Player>
 {
@@ -44,9 +45,8 @@ public class CharacterDriver : Driver<Player>
             gameObject.layer = Data.OfType<BattleData>().First().layer;
 
         var inputs = Data.OfType<InputData>().First();
-        //pInput.actions.AddActionMap(inputs.Actions.Clone());
         pInput.actions = inputs.Default;
-        pInput.SwitchCurrentControlScheme(pInput.actions.controlSchemes[0].name, Keyboard.current);
+        InputUser.PerformPairingWithDevice(Keyboard.current);
         pInput.actions.actionMaps[0].Enable();
         pInput.actions.actionMaps[1].Enable();
         puppet = AddSubDriver<Puppet>();
