@@ -30,9 +30,6 @@ public class CharacterManager : GameSystem
             Speed = Vector3.zero,
             puppetScale = stats1.puppetScale,
             puppetOffset = stats1.puppetOffset,
-            AttackProperties = new AttackProps[] { stats1.propsA,
-                                                    stats1.propsB,
-                                                    stats1.propsC },
             SpellData = new SpellData[] { stats1.spellA, stats1.spellB, stats1.spellC }
 
         };
@@ -50,9 +47,6 @@ public class CharacterManager : GameSystem
             DashMult = 1,
             puppetScale = stats2.puppetScale,
             puppetOffset = stats2.puppetOffset,
-            AttackProperties = new AttackProps[] { stats2.propsA,
-                                                    stats2.propsB,
-                                                    stats2.propsC },
             SpellData = new SpellData[] { stats2.spellA, stats2.spellB, stats2.spellC }
 
         };

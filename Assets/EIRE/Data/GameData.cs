@@ -20,7 +20,6 @@ public class CharacterData : GameData
     public float BaseSpeed, MaxSpeed, DashMult;
     public GameObject Puppet;
     public Resource Health, Mana, Barrier;
-    public AttackProps[] AttackProperties;
     public SpellData[] SpellData;
     public float puppetScale;
     public Vector3 puppetOffset;

@@ -10,6 +10,5 @@ public class CharacterInfo : ScriptableObject
     public Vector3 puppetOffset;
     public GameObject puppet;
 
-    public AttackProps propsA, propsB, propsC;
     public SpellData spellA, spellB, spellC;
 }

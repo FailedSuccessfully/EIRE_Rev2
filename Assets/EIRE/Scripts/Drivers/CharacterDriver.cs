@@ -124,10 +124,6 @@ public class CharacterDriver : Driver<Player>
         if (!(onCanceled is null))
             action.canceled += onCanceled;
     }
-    private void AssignSpawnAction(InputAction action, AttackProps attackProps)
-    {
-        SpawnStrategy.SpawnTable[attackProps.spawnStrat].SetSpawn(action, attackProps, charData.playerIndex);
-    }
 
     void OnCollisionEnter(Collision collision)
     {

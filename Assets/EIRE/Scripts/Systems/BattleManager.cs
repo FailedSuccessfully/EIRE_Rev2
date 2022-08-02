@@ -71,12 +71,6 @@ public class BattleManager : GameSystem
                 GameManager.SetData<CharacterData>(driver.MountContext, d);
             }
         }
-
-        foreach (AttackDriver driver in GameManager.GetDriversOfType<AttackProps>().Where(driver => driver.enabled))
-        {
-            driver.transform.position = MoveStrategy.MoveTable[driver.MountContext.moveStrat].Move(driver);
-            //if (driver.isTTL) RequestRelease(driver as Driver<AttackProps>);
-        }
         if (EventsManager.CheckEvent(GameEvent.TimerZero, phaseTimer - Time.fixedTime))
             Debug.Log(Phase.GetType().ToString());
     }
@@ -91,23 +85,6 @@ public class BattleManager : GameSystem
         Vector3 orgToObj = (toBounce.position - Stage.position) * Radius / Vector3.Distance(toBounce.position, Stage.position);
         Vector3 reflection = Vector3.Reflect(movement, (Stage.position + toBounce.position).normalized);
         return reflection * 2f;
-    }
-
-    public static AttackDriver RequestAttack(AttackProps attackProps, int playerIndex)
-    {
-        var driver = GameManager.RequestDriver<AttackProps, AttackDriver>(attackProps);
-        if (driver)
-        {
-            attackProps.AcceptDriver(driver.gameObject);
-            driver.transform.position = GameManager.Players[playerIndex].Driver.transform.position;
-
-            // Set targeting
-            TargetStrategy.TargetTable[attackProps.targetStrat].SetTargeting(driver, GameManager.Players[playerIndex].Driver.Target);
-
-            // Set layer
-            driver.gameObject.layer = GameManager.Players[playerIndex].Driver.Target.gameObject.layer;
-        }
-        return driver;
     }
 
     public static SpellDriver RequestSpell(SpellData data, int playerIndex)

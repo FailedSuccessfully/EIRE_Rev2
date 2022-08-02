@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="Base" style="width: 100%; height: 100%; background-color: rgba(255, 255, 255, 255);">
-        <ui:VisualElement name="Overlay" style="height: 100%; background-color: rgba(231, 10, 107, 0.38); justify-content: center; align-items: center;">
-            <ui:Button text="Start" display-tooltip-when-elided="true" name="Start" />
-        </ui:VisualElement>
-    </ui:VisualElement>
-</ui:UXML>
