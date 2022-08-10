@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public CharacterInfo[] characters;
     public static Player[] Players => Instance._playerData.Keys.ToArray();
     private static DriverPool driverPool;
-    public static GameObject[] Drivers => driverPool.FetchAll();
     public static Driver<T>[] GetDriversOfType<T>() where T : IDriveable => driverPool.Fetch<T>();
     GameSystem[] _systems;
     Dictionary<Player, GameData[]> _playerData;
@@ -52,11 +51,6 @@ public class GameManager : MonoBehaviour
         RegisterSystem(new BattleManager(GameWorld_temp.transform, (80 * 2) / 5f));
         RegisterSystem(new ResourceManager());
 
-        //        DisplayController dc = new DisplayController(GetComponent<UnityEngine.UIElements.UIDocument>());
-        //      RegisterSystem(dc);
-        //     dc.Init();
-        //   dc.InitPlayers();
-
         var d1 = driverPool.Request<Player, CharacterDriver>(true).gameObject;
         d1.transform.position += Vector3.left * 5;
         p1.AcceptDriver(d1);
@@ -70,7 +64,8 @@ public class GameManager : MonoBehaviour
             sys?.InitPlayers();
 
         onStart.Invoke();
-        //SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded)
+            SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 
     #region Unity Callbacks

@@ -84,7 +84,7 @@ public class BattleManager : GameSystem
     {
         Vector3 orgToObj = (toBounce.position - Stage.position) * Radius / Vector3.Distance(toBounce.position, Stage.position);
         Vector3 reflection = Vector3.Reflect(movement, (Stage.position + toBounce.position).normalized);
-        return reflection * 2f;
+        return Vector3.Scale(reflection, new Vector3(2, 1.5f, 0)) - orgToObj;
     }
 
     public static SpellDriver RequestSpell(SpellData data, int playerIndex)
@@ -94,9 +94,6 @@ public class BattleManager : GameSystem
         {
             data.AcceptDriver(driver.gameObject);
             driver.SetTarget(GameManager.Players[playerIndex].Driver.Target.transform);
-            /*Debug.Log(driver.target);
-            Debug.Log(driver.transform.position);
-            Debug.Log(driver.activeObject.transform.position);*/
             driver.transform.position = GameManager.Players[playerIndex].Driver.transform.position;
             driver.gameObject.layer = GameManager.Players[playerIndex].Driver.Target.gameObject.layer;
         }

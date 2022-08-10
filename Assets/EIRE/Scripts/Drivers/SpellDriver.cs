@@ -11,11 +11,12 @@ public class SpellDriver : Driver<SpellData>
     public GameObject activeObject;
     public Vector3 target;
     private Stack<Type> stack;
+    Rigidbody rigid;
 
     public override Driver<SpellData> Mount(SpellData ctx)
     {
         activeObject = GameObject.Instantiate(ctx.prefab, transform);
-
+        activeObject.transform.localScale = ctx.Scale;
         stack = new Stack<Type>();
         foreach (PatternStates stateName in ctx.stateStack)
         {
@@ -26,11 +27,19 @@ public class SpellDriver : Driver<SpellData>
         gameObject.SetActive(true);
         return base.Mount(ctx);
     }
-
+    protected override void Awake()
+    {
+        rigid = activeObject.AddComponent<Rigidbody>();
+        rigid.useGravity = false;
+        //rigid.constraints = RigidbodyConstraints.FreezeRotation;
+        rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        base.Awake();
+    }
     void Start()
     {
         NextState();
         GetComponentInChildren<HurtBox>().RecieveOn();
+
     }
 
     protected override void Update()
@@ -43,6 +52,14 @@ public class SpellDriver : Driver<SpellData>
         }
 
     }
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Col");
+        if (other.TryGetComponent<CharacterDriver>(out CharacterDriver d))
+        {
+            Debug.Log("Impact");
+        }
+    }
 
     private void SwitchState(PatternState state)
     {
@@ -54,12 +71,19 @@ public class SpellDriver : Driver<SpellData>
     }
     public void NextState()
     {
-        SwitchState((PatternState)Activator.CreateInstance(stack.Pop()));
+        if (stack.Count > 0)
+            SwitchState((PatternState)Activator.CreateInstance(stack.Pop()));
     }
     public void SetTarget(Transform transform)
     {
         target = transform.position;
         GetComponentInChildren<HurtBox>().SetLayer(transform.gameObject.layer);
+    }
+
+    public void Impact(CharacterDriver d)
+    {
+        ResourceManager.LoseResource(PlayerResource.Health, d.MountContext, 5);
+        BattleManager.RequestRelease(this);
     }
 
 }
@@ -106,7 +130,9 @@ public class RotateToTargetState : PatternState
     Quaternion currentRotation => context.activeObject.transform.localRotation;
     public override void OnStateEnter()
     {
-        context.NextState();
+        targetRotation = Quaternion.LookRotation(Vector3.Normalize(context.target - context.transform.localPosition));
+        context.StartCoroutine(Rotate());
+        //context.NextState();
 
 
     }
@@ -121,7 +147,7 @@ public class RotateToTargetState : PatternState
         context.NextState();
         while (true)
         {
-            context.activeObject.transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, 90f * Time.deltaTime);
+            context.activeObject.transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, 90f);
             yield return null;
         }
     }

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1182087181672910, guid: a70bd7d6f77c70d49b0d69b46eedab8d, type: 3}
   splineData: {fileID: 0}
-  speed: 5
+  speed: 10
+  scale: {x: 0.7, y: 0.7}
   stateStack: 0000000002000000

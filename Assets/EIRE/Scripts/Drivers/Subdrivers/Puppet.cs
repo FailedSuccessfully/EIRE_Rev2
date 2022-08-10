@@ -30,5 +30,6 @@ public class Puppet : SubDriver
         base.SetContext(parentDriver);
         var d = GameManager.GetPlayerData<CharacterData>(MountContext);
         puppet = GameObject.Instantiate(d.Puppet, Vector3.zero, Quaternion.identity, transform);
+        puppet.GetComponent<Animator>().SetInteger("PlayerIndex", d.playerIndex);
     }
 }

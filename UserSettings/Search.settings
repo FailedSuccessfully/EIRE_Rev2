@@ -1,12 +1,15 @@
 trackSelection = true
 fetchPreview = true
-wantsMore = false
+defaultFlags = 0
 keepOpen = false
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"last_search.2138236A" = ""
+	"OpenInspectorPreview.2138236A" = "0"
+	"currentGroup.2138236A" = "asset"
 }
 providers = {
 	adb = {
@@ -55,7 +58,10 @@ providers = {
 		defaultAction = null
 	}
 }
+objectSelectors = {
+}
 recentSearches = [
+	"t:Animator"
 ]
 searchItemFavorites = [
 ]

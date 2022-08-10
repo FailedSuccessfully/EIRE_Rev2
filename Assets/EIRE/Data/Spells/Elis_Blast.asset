@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a88e49f13b7e3478029a5b00e02a2e, type: 3}
   m_Name: Elis_Blast
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 1098782847823044, guid: c6be4d1bf651ba7499f4811d0d9d39d0, type: 3}
   splineData: {fileID: 0}
   speed: 0
-  stateStack: 
+  scale: {x: 10, y: 5, z: 5}
+  stateStack: 00000000

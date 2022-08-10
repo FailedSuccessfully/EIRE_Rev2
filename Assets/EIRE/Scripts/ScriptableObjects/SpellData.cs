@@ -9,6 +9,9 @@ public class SpellData : ScriptableObject, IDriveable
     public GameObject prefab;
     public SplineData splineData;
     public float speed;
+    [SerializeField]
+    private Vector3 scale = Vector3.one;
+    public Vector3 Scale => scale;
     public List<PatternStates> stateStack;
     public void AcceptDriver(GameObject driver)
     {

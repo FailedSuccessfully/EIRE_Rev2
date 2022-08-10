@@ -23,9 +23,6 @@ MonoBehaviour:
   puppetScale: 0.5
   puppetOffset: {x: 0, y: -3, z: 0}
   puppet: {fileID: 7637661659354467219, guid: 513c8bf3c40d72347a86114b1598fdcb, type: 3}
-  propsA: {fileID: 0}
-  propsB: {fileID: 0}
-  propsC: {fileID: 0}
-  spellA: {fileID: 11400000, guid: 412577cbe590d0a4c987f218c3e8fe6b, type: 2}
+  spellA: {fileID: 0}
   spellB: {fileID: 0}
   spellC: {fileID: 0}

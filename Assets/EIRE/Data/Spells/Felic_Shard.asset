@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a88e49f13b7e3478029a5b00e02a2e, type: 3}
+  m_Name: Felic_Shard
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2890647153048633605, guid: 31a79e5e92af25448a4e4234365436e2, type: 3}
+  splineData: {fileID: 0}
+  speed: 1.7
+  scale: {x: 2, y: 2}
+  stateStack: 0000000002000000

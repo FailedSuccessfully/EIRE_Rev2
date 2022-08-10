@@ -19,22 +19,25 @@ public class CharacterDriver : Driver<Player>
 
     Transform target;
     Puppet puppet;
+    bool moveable;
+    float moveTime;
     public Transform Target => target;
 
     protected override void Awake()
     {
+        moveTime = 0;
         hitBox = gameObject.AddComponent<BoxCollider>();
         hitBox.center = new Vector3(0.5f, 0.5f, 0);
         hitBox.size = new Vector3(2, 5, 0);
         rigid = gameObject.AddComponent<Rigidbody>();
         rigid.useGravity = false;
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
-        rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        rigid.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
         pInput = gameObject.AddComponent<PlayerInput>();
         pInput.actions = ScriptableObject.CreateInstance<InputActionAsset>();
         pInput.notificationBehavior = PlayerNotifications.InvokeUnityEvents;
         this.enabled = false;
-
+        moveable = true;
         base.Awake();
     }
 
@@ -54,11 +57,14 @@ public class CharacterDriver : Driver<Player>
         var move = pInput.actions.actionMaps[1].FindAction(PlayerActions.Move.ToString());
         var b1 = pInput.actions.actionMaps[0].FindAction(PlayerActions.B1.ToString());
         var b2 = pInput.actions.actionMaps[0].FindAction(PlayerActions.B2.ToString());
+        var b3 = pInput.actions.actionMaps[0].FindAction(PlayerActions.B3.ToString());
         var dash = pInput.actions.actionMaps[1].FindAction(PlayerActions.Dash.ToString());
 
         AssignAction(move, null, ctx => Move(ctx.ReadValue<Vector2>()), ctx => Move(Vector3.zero));
         AssignAction(dash, onPerformed: ctx => Dash());
-        AssignAction(b1, onPerformed: ctx => animator.SetBool("MeleeActive", true), onCanceled: ctx => animator.SetBool("MeleeActive", false));
+        AssignAction(b1, onPerformed: ctx => { animator.SetTrigger("Attack"); animator.SetInteger("AttackID", 0); }, onCanceled: ctx => animator.SetTrigger("Release"));
+        AssignAction(b2, onPerformed: ctx => { animator.SetTrigger("Attack"); animator.SetInteger("AttackID", 1); }, onCanceled: ctx => animator.SetTrigger("Release"));
+        AssignAction(b3, onPerformed: ctx => { animator.SetTrigger("Attack"); animator.SetInteger("AttackID", 2); }, onCanceled: ctx => animator.SetTrigger("Release"));
         //AssignSpawnAction(b2, charData.AttackProperties[0]);
         if (charData.SpellData[0])
         {
@@ -90,9 +96,16 @@ public class CharacterDriver : Driver<Player>
     protected override void Update()
     {
         base.Update();
-        animator?.SetFloat("VecX", rigidDir.normalized.x * (puppet ? puppet.transform.localScale.x : 1));
-        animator?.SetFloat("VecY", rigidDir.normalized.y);
+        Vector2 dir = Vector2.Scale(rigidDir, new Vector2(2, 1)).normalized;
+
+        animator?.SetFloat("DirX", dir.x * Mathf.Sign(puppet.transform.localScale.x));
+        animator?.SetFloat("DirY", dir.y);
         animator?.SetBool("Moving", charData.Direction.magnitude > 0 && rigidDir.magnitude > 1f);
+        if (!moveable)
+        {
+            moveTime -= Time.fixedDeltaTime;
+            moveable = moveTime <= 0 ? true : false;
+        }
 
     }
 
@@ -131,7 +144,12 @@ public class CharacterDriver : Driver<Player>
 
     public void AcceptBounce(Vector3 bounce)
     {
-        rigid.velocity = bounce;
+        if (moveable)
+        {
+            moveTime = .2f;
+            rigid.velocity = bounce;
+            moveable = false;
+        }
     }
 
     public void FlipX()

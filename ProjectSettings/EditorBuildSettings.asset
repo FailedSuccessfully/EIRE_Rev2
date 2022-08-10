@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/EIRE/Scenes/DevScene.unity
     guid: ac2d50606457aba41b677ae2c9a504ab
-  - enabled: 0
+  - enabled: 1
     path: Assets/EIRE/Scenes/BackgroundScene.unity
     guid: 46ef823757db6894bb6c782e98a36f5d
   m_configObjects:

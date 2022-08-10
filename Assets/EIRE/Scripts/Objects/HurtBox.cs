@@ -36,6 +36,7 @@ public class HurtBox : MonoBehaviour
             Vector3 direction = (other.transform.position - transform.position).normalized;
             other.attachedRigidbody.AddForceAtPosition(direction * force, point, ForceMode.Impulse);
 
+            GetComponentInParent<SpellDriver>().Impact(enemy);
         }
     }
 }
